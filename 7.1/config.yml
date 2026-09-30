@@ -1,0 +1,106 @@
+# Frigate config.yml — Hand-Me-Down Homelab, section 7.1.
+# One camera, detection on the GPU with a small YOLOv9 model (ONNX), recording
+# plus snapshots, and a speed zone over the street.
+#
+# Secrets stay out of this file: Frigate replaces {FRIGATE_MQTT_PASSWORD} and
+# {FRIGATE_RTSP_PASSWORD} with environment variables of the same name, which
+# you set in the container's environment (a docker compose .env file works).
+#
+# The model file (yolov9-t-320.onnx) isn't included: Frigate's documentation
+# explains how to export it. Addresses are the book's; use your own.
+
+mqtt:
+  enabled: true
+  host: 192.168.7.172          # Home Assistant's MQTT broker (section 4.1)
+  port: 1883
+  user: frigate_mqtt
+  password: '{FRIGATE_MQTT_PASSWORD}'
+  topic_prefix: frigate
+  client_id: frigate
+
+detectors:
+  onnx:
+    type: onnx
+
+model:
+  model_type: yolo-generic
+  width: 320
+  height: 320
+  input_tensor: nchw
+  input_dtype: float
+  path: /config/model_cache/onnx/yolov9-t-320.onnx
+  labelmap_path: /labelmap/coco-80.txt
+
+ui:
+  unit_system: imperial
+
+# go2rtc takes each camera stream once and re-serves it to Frigate, so the
+# camera only has one client. Here the camera sits behind a Reolink video
+# recorder: channel 02 is the camera, "main" the full-resolution stream
+# (recorded) and "sub" the small one (used for detection).
+go2rtc:
+  streams:
+    front_yard:
+      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@192.168.4.52:554/h265Preview_02_main
+    front_yard_sub:
+      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@192.168.4.52:554/h264Preview_02_sub
+
+cameras:
+  front_yard:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/front_yard
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/front_yard_sub
+          roles:
+            - detect
+    detect:
+      width: 640
+      height: 360
+      fps: 10
+      enabled: true
+    record:
+      enabled: true
+    snapshots:
+      enabled: true
+      timestamp: true
+      bounding_box: true
+      retain:
+        default: 30
+    objects:
+      track:
+        - bicycle
+        - car
+        - motorcycle
+        - person
+    # The speed zone (section 7.3). Coordinates are fractions of the frame;
+    # distances are the real-world lengths of the zone's four sides, in feet
+    # with unit_system: imperial, measured on the ground.
+    zones:
+      street:
+        coordinates: 0.245,0.326,0.084,0.518,1,0.523,0.832,0.343
+        loitering_time: 0
+        objects:
+          - car
+          - motorcycle
+        inertia: 3
+        distances: 9,30,9,30
+
+record:
+  alerts:
+    retain:
+      days: 30
+  detections:
+    retain:
+      days: 30
+
+review:
+  alerts:
+    labels:
+      - person
+      - car
+      - motorcycle
+      - bicycle
+
+version: 0.18-0              # written by Frigate itself; leave it alone
