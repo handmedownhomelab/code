@@ -1,0 +1,12 @@
+# ~/.config/systemd/user/frigate-detect-watchdog.service — Hand-Me-Down Homelab, 7.2
+[Unit]
+Description=Frigate detection watchdog (alerts when Frigate runs healthy but detects nothing)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/bin/frigate-detect-watchdog.py
+# Exit 1 means "detection unhealthy" — that is a reported state, not a unit
+# failure, so don't let systemd mark the unit failed on every bad poll.
+SuccessExitStatus=0 1

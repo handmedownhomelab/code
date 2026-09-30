@@ -9,7 +9,13 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`1.2/10-restart.conf`](1.2/10-restart.conf) | 1.2 | The systemd drop-in that restarts `mbpfan` if it dies |
 | [`1.4/ux7_load_reservations.py`](1.4/ux7_load_reservations.py) | 1.4 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
 | [`1.4/reservations.example.md`](1.4/reservations.example.md) | 1.4 | An example table to start from |
+| [`2.5/ssh-menu.sh`](2.5/ssh-menu.sh), [`2.5/m.zsh`](2.5/m.zsh) | 2.5 The Homelab Menu and `audit.sh` | A one-letter launcher for your hosts and frequent commands |
+| [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
 | [`3.2/pihole-sync.sh`](3.2/pihole-sync.sh) | 3.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
+| [`7.1/config.yml`](7.1/config.yml) | 7.1 A video recorder plus Frigate | Frigate: one camera, GPU detection, recording, a speed zone |
+| [`7.2/frigate-detect-watchdog.py`](7.2/frigate-detect-watchdog.py) + `.service` / `.timer` | 7.2 Blind for 45 hours | Emails when Frigate is "healthy" but detecting nothing |
+| [`7.2/frigate-safe-restart.sh`](7.2/frigate-safe-restart.sh), [`7.2/free-ollama-vram.sh`](7.2/free-ollama-vram.sh) | 7.2 | Restart Frigate on a shared GPU, and prove the detector came back |
+| [`8.3/threshold.config`](8.3/threshold.config) | 8.3 Tuning, and the daily AI digest | Suricata suppressions and rate limits, each with its reason |
 
 ## Before you run anything
 
