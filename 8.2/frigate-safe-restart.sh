@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# frigate-safe-restart.sh — Hand-Me-Down Homelab, section 7.2.
+# frigate-safe-restart.sh — Hand-Me-Down Homelab, section 8.2.
 # The safe way to restart or update Frigate on a GPU it shares with Ollama.
 # Frees Ollama's VRAM first (so the detector can cold-start), recreates the
 # container, then VERIFIES the detector is processing frames -- not just that

@@ -1,4 +1,4 @@
-# ~/.config/systemd/user/frigate-detect-watchdog.service — Hand-Me-Down Homelab, 7.2
+# ~/.config/systemd/user/frigate-detect-watchdog.service — Hand-Me-Down Homelab, 8.2
 [Unit]
 Description=Frigate detection watchdog (alerts when Frigate runs healthy but detects nothing)
 After=network-online.target

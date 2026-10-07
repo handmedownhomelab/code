@@ -128,7 +128,7 @@ EXPECTED = {
     # updates. None skips the check.
     "wan_mac_override": None,
     # The gateway's own IDS/IPS. False in the book's lab on purpose: it costs
-    # throughput, and a separate sensor does the job (Chapter 8). Set it to
+    # throughput, and a separate sensor does the job (Chapter 9). Set it to
     # match your intent; --verify reports whichever you choose.
     "ips_enabled": False,
 }
