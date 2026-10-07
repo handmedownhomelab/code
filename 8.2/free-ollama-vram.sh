@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# free-ollama-vram.sh — Hand-Me-Down Homelab, sections 6.7 and 7.2.
+# free-ollama-vram.sh — Hand-Me-Down Homelab, sections 6.7 and 8.2.
 # Unload any GPU-resident Ollama models so a (re)starting Frigate detector can
 # initialize. On a 16 GB card, a large model kept loaded (keep_alive
 # "forever", ~14 GB) leaves too little VRAM for Frigate's detector to

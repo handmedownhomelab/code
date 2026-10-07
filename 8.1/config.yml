@@ -1,4 +1,4 @@
-# Frigate config.yml — Hand-Me-Down Homelab, section 7.1.
+# Frigate config.yml — Hand-Me-Down Homelab, section 8.1.
 # One camera, detection on the GPU with a small YOLOv9 model (ONNX), recording
 # plus snapshots, and a speed zone over the street.
 #
@@ -74,7 +74,7 @@ cameras:
         - car
         - motorcycle
         - person
-    # The speed zone (section 7.3). Coordinates are fractions of the frame;
+    # The speed zone (section 8.3). Coordinates are fractions of the frame;
     # distances are the real-world lengths of the zone's four sides, in feet
     # with unit_system: imperial, measured on the ground.
     zones:

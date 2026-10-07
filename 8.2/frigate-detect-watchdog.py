@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Frigate detection watchdog — Hand-Me-Down Homelab, section 7.2.
+Frigate detection watchdog — Hand-Me-Down Homelab, section 8.2.
 
 Catches the failure behind the book's 45-hour outage: Frigate ran for 45
 hours reporting `Up (healthy)` and streaming live video while detecting
