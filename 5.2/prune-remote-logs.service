@@ -1,0 +1,6 @@
+[Unit]
+Description=Compress and expire the central syslog tree
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/prune-remote-logs.sh
