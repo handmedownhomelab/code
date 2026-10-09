@@ -11,6 +11,7 @@ your AI assistant to carry out on **your** network.
 | [`3.3-proxy-manager.md`](3.3-proxy-manager.md) | 3.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
 | [`3.4-private-ca.md`](3.4-private-ca.md) | 3.4 Your own certificate authority | Step-CA with ACME, 90-day self-renewing certificates, trusted devices | 2026-10-09 |
 | [`5.1-uptime-kuma.md`](5.1-uptime-kuma.md) | 5.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
+| [`5.2-syslog-disk-alerts.md`](5.2-syslog-disk-alerts.md) | 5.2 Syslog, disk-health alerts, and email | A central syslog collector with 90-day retention, and SMART alerts proven to arrive | 2026-10-09 |
 | [`6.2-ollama-open-webui.md`](6.2-ollama-open-webui.md) | 6.2 Ollama and Open WebUI | One resident model as a network service, and a chat interface with login | 2026-10-09 (CPU only) |
 | [`10.1-nextcloud.md`](10.1-nextcloud.md) | 10.1 Nextcloud | Private file sync on PostgreSQL and Redis, data on its own drive, reachable only over the tailnet | 2026-10-09 (tailnet step untested) |
 
