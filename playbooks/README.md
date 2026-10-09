@@ -7,6 +7,7 @@ your AI assistant to carry out on **your** network.
 | Playbook | Section | Builds | Tested |
 |---|---|---|---|
 | [`3.1-pihole.md`](3.1-pihole.md) | 3.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
+| [`3.2-second-pihole.md`](3.2-second-pihole.md) | 3.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `3.2/pihole-sync.sh` | 2026-10-08 |
 
 ## How to use one
 
