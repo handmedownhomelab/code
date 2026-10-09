@@ -17,6 +17,14 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`8.2/frigate-safe-restart.sh`](8.2/frigate-safe-restart.sh), [`8.2/free-ollama-vram.sh`](8.2/free-ollama-vram.sh) | 8.2 | Restart Frigate on a shared GPU, and prove the detector came back |
 | [`9.3/threshold.config`](9.3/threshold.config) | 9.3 Tuning, and the daily AI digest | Suricata suppressions and rate limits, each with its reason |
 
+## Playbooks and links
+
+- **[`playbooks/`](playbooks/)**: where a section installs something, its
+  playbook is a tested build for your AI assistant to carry out on your own
+  network. Start with [`playbooks/README.md`](playbooks/README.md).
+- **[`LINKS.md`](LINKS.md)**: every program the book uses, with its
+  website (the book's Appendix E).
+
 ## Before you run anything
 
 - **Read the script first.** Each one explains at the top what it does, what
