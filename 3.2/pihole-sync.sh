@@ -5,8 +5,9 @@
 # One-way: the primary is the source of truth. The script logs into the
 # primary's API, downloads its teleporter export, and imports it here, but only
 # when the primary's configuration actually changed. It then puts back the one
-# setting the import overwrites (this Pi-hole's own web hostname), restarts
-# Pi-hole, and checks DNS really answers before recording the change as done.
+# setting the import overwrites (this Pi-hole's own web hostname), waits for
+# Pi-hole's own restart to finish, and checks DNS really answers before
+# recording the change as done.
 #
 # INSTALL (on the secondary, as root):
 #   install -m 755 pihole-sync.sh /usr/local/bin/pihole-sync
@@ -14,26 +15,30 @@
 #       PRIMARY_URL=https://pihole.home.arpa
 #       PRIMARY_PASS='<primary admin password>'
 #       SECONDARY_URL=https://127.0.0.1
-#       SECONDARY_PASS='<secondary admin password>'
+#       SECONDARY_PASS='<the PRIMARY's admin password>'
 #       SECONDARY_DOMAIN=pihole2.home.arpa      # optional; this is the default
 #   echo '*/15 * * * * root /usr/local/bin/pihole-sync' > /etc/cron.d/pihole-sync
 #
-# After the first sync the two admin passwords are the same, because the
-# password hash is part of what's copied.
+# SECONDARY_PASS is the primary's password, and the secondary's admin password
+# should be set to it before the first sync: the import copies the primary's
+# password hash, so from then on the secondary only accepts the primary's
+# password. With a different one, the first sync works and every later one
+# fails with "failed to auth to self".
 #
 # `curl -k` skips certificate checks, because a home Pi-hole usually has a
 # private or self-signed certificate. If yours chains to a CA this machine
 # trusts (section 3.4), you can drop the -k.
 #
-# WHY THE CHANGE GATE: restarting Pi-hole's FTL right after a teleporter import
-# leaves it unable to stop cleanly. systemd waits out the full 60-second stop
-# timeout and then kills it, so the secondary dropped DNS for about a minute
-# every 15 minutes: 10,472 times over three and a half months, silently,
-# because `systemctl restart` still returns 0 after the kill. A restart with no
-# import before it takes about 2 seconds. The likely reason is that the import
-# also brings in the primary's query log (millions of rows), and FTL won't shut
-# down cleanly in the middle of ingesting it. The primary's config changes
-# rarely, so importing only on change removes almost every restart.
+# WHY THE CHANGE GATE, AND WHY NO RESTART: the original version imported and
+# then ran `systemctl restart pihole-FTL` every 15 minutes. But the import
+# makes FTL restart itself, and so does the webserver.domain fix below; a
+# systemctl restart on top of those hits an FTL that is already restarting,
+# the stop hangs for systemd's full 60-second timeout, and FTL is killed. The
+# secondary dropped DNS for about a minute every 15 minutes, 10,472 times over
+# three and a half months, silently, because `systemctl restart` still returns
+# 0 after the kill. Now the script imports only when the configuration changed
+# and never restarts FTL itself: it waits for FTL's own restart and checks DNS.
+# Tested 2026-10-08: about 3 seconds from import to serving, no timeout.
 
 set -euo pipefail
 
@@ -54,7 +59,7 @@ source /etc/pihole/sync-credentials
 PRIMARY_SID=$(curl -sk -X POST "${PRIMARY_URL}/api/auth" \
   -H "Content-Type: application/json" \
   -d "{\"password\":\"${PRIMARY_PASS}\"}" \
-  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['session']['sid'])" 2>/dev/null)
+  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['session']['sid'] or '')" 2>/dev/null || true)
 
 if [[ -z "$PRIMARY_SID" || "$PRIMARY_SID" == "null" ]]; then
   log "ERROR: failed to auth to primary"
@@ -82,7 +87,14 @@ fi
 # extraction path, which is a fresh mktemp dir each run.
 SUMDIR=$(mktemp -d /tmp/pihole-sync-sum-XXXXXX)
 trap 'rm -f "$TMPFILE"; rm -rf "$SUMDIR"' EXIT
-unzip -qo "$TMPFILE" -d "$SUMDIR" 2>/dev/null || true
+# If the export can't be unpacked (unzip missing, a truncated download), every
+# member hashes as "absent", the checksum never changes again, and every later
+# sync would be skipped as "no change". Fail loudly instead.
+if ! unzip -qo "$TMPFILE" -d "$SUMDIR" 2>/dev/null \
+   || [[ ! -f "$SUMDIR/etc/pihole/pihole.toml" || ! -f "$SUMDIR/etc/pihole/gravity.db" ]]; then
+  log "ERROR: could not unpack the export (is unzip installed?); nothing imported"
+  exit 1
+fi
 
 NEW_SUM=$(
   for member in etc/hosts etc/pihole/pihole.toml etc/pihole/gravity.db; do
@@ -106,7 +118,7 @@ fi
 SELF_SID=$(curl -sk -X POST "${SECONDARY_URL}/api/auth" \
   -H "Content-Type: application/json" \
   -d "{\"password\":\"${SECONDARY_PASS}\"}" \
-  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['session']['sid'])" 2>/dev/null)
+  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['session']['sid'] or '')" 2>/dev/null || true)
 
 if [[ -z "$SELF_SID" || "$SELF_SID" == "null" ]]; then
   log "ERROR: failed to auth to self"
@@ -130,22 +142,28 @@ fi
 # not the primary's.
 pihole-FTL --config webserver.domain "${SECONDARY_DOMAIN:-pihole2.home.arpa}" > /dev/null 2>&1 || true
 
-# Restart FTL to apply imported config.
-RESTART_RC=0
+# Do NOT restart FTL here. The import makes FTL restart itself, and the
+# webserver.domain change above makes it restart again. A `systemctl restart`
+# on top of that hits an FTL that is already restarting: the stop hangs for
+# systemd's full 60-second timeout and FTL is killed, a minute of no DNS on
+# every sync. Instead, wait for FTL's own restarts to finish and check that
+# it serves DNS with this Pi-hole's own settings.
 T0=$(date +%s)
-systemctl restart pihole-FTL || RESTART_RC=$?
+ACTIVE=no; DNS_OK=no; DOMAIN_OK=no
+sleep 3
+while (( $(date +%s) - T0 < 90 )); do
+  ACTIVE=$(systemctl is-active pihole-FTL 2>/dev/null || true)
+  DNS_OK=no
+  dig +short +time=2 +tries=1 @127.0.0.1 pi.hole > /dev/null 2>&1 && DNS_OK=yes
+  [[ "$(pihole-FTL --config webserver.domain 2>/dev/null)" == "${SECONDARY_DOMAIN:-pihole2.home.arpa}" ]] \
+    && DOMAIN_OK=yes || DOMAIN_OK=no
+  [[ "$ACTIVE" == "active" && "$DNS_OK" == "yes" && "$DOMAIN_OK" == "yes" ]] && break
+  sleep 2
+done
 ELAPSED=$(( $(date +%s) - T0 ))
 
-# `systemctl restart` returns 0 even when the stop phase timed out and FTL was
-# SIGKILLed, so verify the service is genuinely serving instead of trusting the
-# exit status. A restart that took ~60s is the stop-timeout path.
-sleep 2
-ACTIVE=$(systemctl is-active pihole-FTL 2>/dev/null || true)
-DNS_OK=no
-dig +short +time=3 +tries=1 @127.0.0.1 pi.hole > /dev/null 2>&1 && DNS_OK=yes
-
-if [[ "$RESTART_RC" -ne 0 || "$ACTIVE" != "active" || "$DNS_OK" != "yes" ]]; then
-  log "ERROR: FTL unhealthy after restart (rc=$RESTART_RC active=$ACTIVE dns=$DNS_OK ${ELAPSED}s); checksum not recorded, will retry next cycle"
+if [[ "$ACTIVE" != "active" || "$DNS_OK" != "yes" || "$DOMAIN_OK" != "yes" ]]; then
+  log "ERROR: FTL not serving after import (active=$ACTIVE dns=$DNS_OK domain=$DOMAIN_OK ${ELAPSED}s); checksum not recorded, will retry next cycle"
   exit 1
 fi
 
@@ -153,8 +171,10 @@ fi
 # so a failed cycle retries rather than being skipped as "already applied".
 printf '%s\n' "$NEW_SUM" > "$STATEFILE"
 
-if [[ "$ELAPSED" -ge 30 ]]; then
-  log "OK: sync complete (config changed) — WARNING: FTL stop timed out, SIGKILLed, restart took ${ELAPSED}s"
+# A clean pair of FTL self-restarts takes seconds. If FTL was ever killed for
+# overrunning its stop timeout, journalctl shows it; report that, don't hide it.
+if journalctl -u pihole-FTL --since "@$T0" --no-pager 2>/dev/null | grep -q "Failed with result 'timeout'"; then
+  log "OK: sync complete (config changed) — WARNING: FTL stop timed out and was killed (${ELAPSED}s)"
 else
-  log "OK: sync complete (config changed, restart ${ELAPSED}s)"
+  log "OK: sync complete (config changed, serving again after ${ELAPSED}s)"
 fi
