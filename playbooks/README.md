@@ -10,6 +10,7 @@ your AI assistant to carry out on **your** network.
 | [`3.2-second-pihole.md`](3.2-second-pihole.md) | 3.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `3.2/pihole-sync.sh` | 2026-10-08 |
 | [`3.3-proxy-manager.md`](3.3-proxy-manager.md) | 3.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
 | [`3.4-private-ca.md`](3.4-private-ca.md) | 3.4 Your own certificate authority | Step-CA with ACME, 90-day self-renewing certificates, trusted devices | 2026-10-09 |
+| [`5.1-uptime-kuma.md`](5.1-uptime-kuma.md) | 5.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
 
 ## How to use one
 
