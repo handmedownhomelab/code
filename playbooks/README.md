@@ -13,8 +13,10 @@ your AI assistant to carry out on **your** network.
 1. **Read it first.** A playbook is a set of instructions an AI will carry
    out with your permissions. Look at it the way you'd look at an install
    script before running it.
-2. **Use a tagged release**, not the live file, so what you read is what
-   runs.
+2. **Give your AI the copy you read**, not the web address, so the file you
+   read is the file that runs. Each playbook's short address is
+   `handmedownhomelab.com/p/<name>`, e.g. `handmedownhomelab.com/p/3.1-pihole`.
+   Releases are tagged if you'd rather work from a fixed version.
 3. Start a session with your assistant (the book uses Claude Code; any
    capable assistant that can run commands will do), give it the file, and
    say: *"Follow this playbook. Ask me before every step marked CONFIRM."*
@@ -47,3 +49,10 @@ Before a playbook is published, it is run on a clean machine (a fresh
 container or virtual machine) and every **Verify** check has to pass. Its
 header records what was tested, on what, and which steps were not
 exercised. Whatever the test found was folded back into the playbook.
+
+**Some can't be tested that way.** A playbook that needs an NVIDIA graphics
+card is written from the author's working machine and the book, but a clean
+test would mean taking that machine (it runs the cameras and the local AI
+full-time) apart. Those playbooks say **Not tested** in their header and in
+the table above. They have the same Verify checks; run them, and trust the
+checks over the prose.
