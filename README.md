@@ -17,6 +17,7 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`3.2/60-forward-to-syslog.conf`](3.2/60-forward-to-syslog.conf) | 3.2 | Forwards a host's logs to the collector over TCP |
 | [`4.2/pihole-sync.sh`](4.2/pihole-sync.sh) | 4.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
 | [`4.3/server_proxy.conf`](4.3/server_proxy.conf) | 4.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
+| [`8.1/watch_page.py`](8.1/watch_page.py) | 8.1 Hermes | A page watcher for a Hermes script-only cron job: silent until the page changes |
 | [`10.1/config.yml`](10.1/config.yml) | 10.1 A video recorder plus Frigate | Frigate: one camera, GPU detection, recording, a speed zone |
 | [`10.2/frigate-detect-watchdog.py`](10.2/frigate-detect-watchdog.py) + `.service` / `.timer` | 10.2 Blind for 45 hours | Emails when Frigate is "healthy" but detecting nothing |
 | [`10.2/frigate-safe-restart.sh`](10.2/frigate-safe-restart.sh), [`10.2/free-ollama-vram.sh`](10.2/free-ollama-vram.sh) | 10.2 | Restart Frigate on a shared GPU, and prove the detector came back |
