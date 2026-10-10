@@ -1,0 +1,29 @@
+#!/bin/sh
+# post-receive: keep the hub's own working copy current on every push.
+# Hand-Me-Down Homelab, section 2.2.
+#
+# Install into each BARE repository on the hub that has a matching checkout,
+# mode 755:   ~/git/<repo>.git/hooks/post-receive   updates   ~/wiki/<repo>/
+# The checkout must be a clone of the bare repository (origin = ~/git/<repo>.git).
+#
+# Why a hook and not a timed pull: there's no polling interval to be stale
+# inside. The copy is current the instant a push lands.
+#
+# WARNING: `git reset --hard` makes the hub's checkout DISPOSABLE. Programs
+# on the hub can read it; nobody edits there. Anything edited there and not
+# committed is destroyed by the next push from any machine.
+set -e
+
+REPO="$(basename "$(cd "$(dirname "$0")/.." && pwd)" .git)"
+TREE="$HOME/wiki/$REPO"
+
+[ -d "$TREE/.git" ] || { echo "post-receive: no checkout at $TREE — skipping" >&2; exit 0; }
+
+export GIT_DIR="$TREE/.git"
+export GIT_WORK_TREE="$TREE"
+cd "$TREE"
+
+git fetch -q origin
+git reset -q --hard origin/main
+
+echo "post-receive: $REPO checkout updated to $(git rev-parse --short HEAD)"

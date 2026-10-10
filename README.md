@@ -10,6 +10,7 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`1.3/proxmox-backup-sync.sh`](1.3/proxmox-backup-sync.sh) | 1.3 Backups | Nightly copy of a Proxmox host's backups to another machine; refuses when the source looks wrong |
 | [`1.4/ux7_load_reservations.py`](1.4/ux7_load_reservations.py) | 1.4 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
 | [`1.4/reservations.example.md`](1.4/reservations.example.md) | 1.4 | An example table to start from |
+| [`2.2/post-receive`](2.2/post-receive), [`2.2/wiki-sync.sh`](2.2/wiki-sync.sh), [`2.2/check-wiki-log.sh`](2.2/check-wiki-log.sh), [`2.2/settings-hooks.json`](2.2/settings-hooks.json) | 2.2 One wiki on four machines | The hub's update hook, and the Claude Code hooks that pull at session start, push at the end, and check for log entries |
 | [`2.5/ssh-menu.sh`](2.5/ssh-menu.sh), [`2.5/m.zsh`](2.5/m.zsh) | 2.5 The Homelab Menu and `audit.sh` | A one-letter launcher for your hosts and frequent commands |
 | [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
 | [`3.2/pihole-sync.sh`](3.2/pihole-sync.sh) | 3.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
