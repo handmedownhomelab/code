@@ -1,0 +1,9 @@
+{
+  "hooks": {
+    "SessionStart": [ { "hooks": [
+      { "type": "command", "command": "bash \"$HOME/.claude/hooks/wiki-sync.sh\"" } ] } ],
+    "Stop": [ { "hooks": [
+      { "type": "command", "command": "bash \"$HOME/.claude/hooks/check-wiki-log.sh\"" },
+      { "type": "command", "command": "bash \"$HOME/.claude/hooks/wiki-sync.sh\" push" } ] } ]
+  }
+}

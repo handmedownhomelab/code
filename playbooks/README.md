@@ -8,6 +8,7 @@ your AI assistant to carry out on **your** network.
 |---|---|---|---|
 | [`1.2-mail-relay.md`](1.2-mail-relay.md) | 1.2 Email, so the host can tell you things | A send-only Postfix relay through your mail provider | 2026-10-09 (to the provider's login) |
 | [`1.3-backups.md`](1.3-backups.md) | 1.3 Backups that tell you when they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
+| [`2.2-wiki-git-hub.md`](2.2-wiki-git-hub.md) | 2.2 One wiki on every machine | A git hub for the wiki, a clone everywhere, and Claude Code hooks that pull and push | 2026-10-09 |
 | [`3.1-pihole.md`](3.1-pihole.md) | 3.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
 | [`3.2-second-pihole.md`](3.2-second-pihole.md) | 3.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `3.2/pihole-sync.sh` | 2026-10-08 |
 | [`3.3-proxy-manager.md`](3.3-proxy-manager.md) | 3.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
