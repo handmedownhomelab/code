@@ -21,6 +21,7 @@ your AI assistant to carry out on **your** network.
 | [`6.5-ha-mcp.md`](6.5-ha-mcp.md) | 6.5 Claude drives Home Assistant through MCP | ha-mcp in Claude Code with its own token, starting in Read Only Mode | 2026-10-09 (reads only) |
 | [`7.2-ollama-open-webui.md`](7.2-ollama-open-webui.md) | 7.2 Ollama and Open WebUI | One resident model as a network service, and a chat interface with login | 2026-10-09 (CPU only) |
 | [`9.1-nextcloud.md`](9.1-nextcloud.md) | 9.1 Nextcloud | Private file sync on PostgreSQL and Redis, data on its own drive, reachable only over the tailnet | 2026-10-09 (tailnet step untested) |
+| [`10.1-frigate.md`](10.1-frigate.md) | 10.1 A video recorder plus Frigate | Frigate in Docker on your recorder's streams, a YOLOv9 model checked on a known image, events to MQTT, a login on 8971 | 2026-10-10 (CPU only, test stream; GPU image and CUDA cache **Not tested**) |
 | [`11.2-suricata-evebox.md`](11.2-suricata-evebox.md) | 11.2 Suricata and EveBox | A passive IDS sensor proven to see traffic and alert, with EveBox behind a login | 2026-10-09 (container, not a Pi) |
 
 ## How to use one
