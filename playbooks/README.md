@@ -7,21 +7,21 @@ your AI assistant to carry out on **your** network.
 | Playbook | Section | Builds | Tested |
 |---|---|---|---|
 | [`1.2-proxmox-mac-mini.md`](1.2-proxmox-mac-mini.md) | 1.2 Proxmox on a 2012 Mac mini | Proxmox VE on an old PC or Intel Mac, with a working fan curve | Partly: install tested; Mac steps **Not tested** (need a Mac) |
-| [`1.2-mail-relay.md`](1.2-mail-relay.md) | 1.2 Email, so the host can tell you things | A send-only Postfix relay through your mail provider | 2026-10-09 (to the provider's login) |
-| [`1.3-backups.md`](1.3-backups.md) | 1.3 Backups that tell you when they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
+| [`1.4-backups.md`](1.4-backups.md) | 1.4 Backups that tell you when they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
 | [`2.2-wiki-git-hub.md`](2.2-wiki-git-hub.md) | 2.2 One wiki on every machine | A git hub for the wiki, a clone everywhere, and Claude Code hooks that pull and push | 2026-10-09 |
-| [`3.1-pihole.md`](3.1-pihole.md) | 3.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
-| [`3.2-second-pihole.md`](3.2-second-pihole.md) | 3.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `3.2/pihole-sync.sh` | 2026-10-08 |
-| [`3.3-proxy-manager.md`](3.3-proxy-manager.md) | 3.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
-| [`3.4-private-ca.md`](3.4-private-ca.md) | 3.4 Your own certificate authority | Step-CA with ACME, 90-day self-renewing certificates, trusted devices | 2026-10-09 |
-| [`3.5-tailscale.md`](3.5-tailscale.md) | 3.5 Tailscale | Your devices on a tailnet, a subnet router, tailnet DNS, no open ports | 2026-10-09 |
-| [`4.1-home-assistant-vm.md`](4.1-home-assistant-vm.md) | 4.1 Home Assistant in a Proxmox VM | Home Assistant OS as a VM, claimed by you, behind the proxy, with Mosquitto | 2026-10-09 (add-ons in the UI untested) |
-| [`4.9-ha-mcp.md`](4.9-ha-mcp.md) | 4.9 Claude drives Home Assistant through MCP | ha-mcp in Claude Code with its own token, starting in Read Only Mode | 2026-10-09 (reads only) |
-| [`5.1-uptime-kuma.md`](5.1-uptime-kuma.md) | 5.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
-| [`5.2-syslog-disk-alerts.md`](5.2-syslog-disk-alerts.md) | 5.2 Syslog, disk-health alerts, and email | A central syslog collector with 90-day retention, and SMART alerts proven to arrive | 2026-10-09 |
-| [`6.2-ollama-open-webui.md`](6.2-ollama-open-webui.md) | 6.2 Ollama and Open WebUI | One resident model as a network service, and a chat interface with login | 2026-10-09 (CPU only) |
-| [`9.2-suricata-evebox.md`](9.2-suricata-evebox.md) | 9.2 Suricata and EveBox | A passive IDS sensor proven to see traffic and alert, with EveBox behind a login | 2026-10-09 (container, not a Pi) |
-| [`10.1-nextcloud.md`](10.1-nextcloud.md) | 10.1 Nextcloud | Private file sync on PostgreSQL and Redis, data on its own drive, reachable only over the tailnet | 2026-10-09 (tailnet step untested) |
+| [`3.1-uptime-kuma.md`](3.1-uptime-kuma.md) | 3.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
+| [`3.2-syslog-disk-alerts.md`](3.2-syslog-disk-alerts.md) | 3.2 Central syslog, and disk-health alerts | A central syslog collector with 90-day retention, and SMART alerts proven to arrive | 2026-10-09 |
+| [`3.3-mail-relay.md`](3.3-mail-relay.md) | 3.3 Email that actually arrives | A send-only Postfix relay through your mail provider | 2026-10-09 (to the provider's login) |
+| [`4.1-pihole.md`](4.1-pihole.md) | 4.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
+| [`4.2-second-pihole.md`](4.2-second-pihole.md) | 4.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `4.2/pihole-sync.sh` | 2026-10-08 |
+| [`4.3-proxy-manager.md`](4.3-proxy-manager.md) | 4.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
+| [`4.4-private-ca.md`](4.4-private-ca.md) | 4.4 Your own certificate authority | Step-CA with ACME, 90-day self-renewing certificates, trusted devices | 2026-10-09 |
+| [`4.5-tailscale.md`](4.5-tailscale.md) | 4.5 Tailscale | Your devices on a tailnet, a subnet router, tailnet DNS, no open ports | 2026-10-09 |
+| [`5.1-home-assistant-vm.md`](5.1-home-assistant-vm.md) | 5.1 Home Assistant in a Proxmox VM | Home Assistant OS as a VM, claimed by you, behind the proxy, with Mosquitto | 2026-10-09 (add-ons in the UI untested) |
+| [`6.5-ha-mcp.md`](6.5-ha-mcp.md) | 6.5 Claude drives Home Assistant through MCP | ha-mcp in Claude Code with its own token, starting in Read Only Mode | 2026-10-09 (reads only) |
+| [`7.2-ollama-open-webui.md`](7.2-ollama-open-webui.md) | 7.2 Ollama and Open WebUI | One resident model as a network service, and a chat interface with login | 2026-10-09 (CPU only) |
+| [`9.1-nextcloud.md`](9.1-nextcloud.md) | 9.1 Nextcloud | Private file sync on PostgreSQL and Redis, data on its own drive, reachable only over the tailnet | 2026-10-09 (tailnet step untested) |
+| [`11.2-suricata-evebox.md`](11.2-suricata-evebox.md) | 11.2 Suricata and EveBox | A passive IDS sensor proven to see traffic and alert, with EveBox behind a login | 2026-10-09 (container, not a Pi) |
 
 ## How to use one
 
@@ -30,7 +30,7 @@ your AI assistant to carry out on **your** network.
    script before running it.
 2. **Give your AI the copy you read**, not the web address, so the file you
    read is the file that runs. Each playbook's short address is
-   `handmedownhomelab.com/p/<name>`, e.g. `handmedownhomelab.com/p/3.1-pihole`.
+   `handmedownhomelab.com/p/<name>`, e.g. `handmedownhomelab.com/p/4.1-pihole`.
    Releases are tagged if you'd rather work from a fixed version.
 3. Start a session with your assistant (the book uses Claude Code; any
    capable assistant that can run commands will do), give it the file, and

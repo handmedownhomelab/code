@@ -1,0 +1,14 @@
+# ~/.config/systemd/user/frigate-detect-watchdog.timer — Hand-Me-Down Homelab, 10.2
+[Unit]
+Description=Poll Frigate detection health every 5 minutes
+
+[Timer]
+# Start 10 min after boot so a cold-cache detector (~90 s JIT warmup after an
+# NVIDIA driver upgrade) is never mistaken for the failure it is guarding.
+OnBootSec=10min
+OnUnitActiveSec=5min
+AccuracySec=30s
+Persistent=false
+
+[Install]
+WantedBy=timers.target
