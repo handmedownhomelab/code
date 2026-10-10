@@ -7,6 +7,7 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 |---|---|---|
 | [`1.2/install-mbpfan.sh`](1.2/install-mbpfan.sh) | 1.2 Proxmox on a 2012 Mac mini | Gives a Mac running Linux a working fan curve, with a restart guard |
 | [`1.2/10-restart.conf`](1.2/10-restart.conf) | 1.2 | The systemd drop-in that restarts `mbpfan` if it dies |
+| [`1.3/proxmox-backup-sync.sh`](1.3/proxmox-backup-sync.sh) | 1.3 Backups | Nightly copy of a Proxmox host's backups to another machine; refuses when the source looks wrong |
 | [`1.4/ux7_load_reservations.py`](1.4/ux7_load_reservations.py) | 1.4 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
 | [`1.4/reservations.example.md`](1.4/reservations.example.md) | 1.4 | An example table to start from |
 | [`2.5/ssh-menu.sh`](2.5/ssh-menu.sh), [`2.5/m.zsh`](2.5/m.zsh) | 2.5 The Homelab Menu and `audit.sh` | A one-letter launcher for your hosts and frequent commands |
