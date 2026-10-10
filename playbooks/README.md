@@ -6,6 +6,7 @@ your AI assistant to carry out on **your** network.
 
 | Playbook | Section | Builds | Tested |
 |---|---|---|---|
+| [`1.2-proxmox-mac-mini.md`](1.2-proxmox-mac-mini.md) | 1.2 Proxmox on a 2012 Mac mini | Proxmox VE on an old PC or Intel Mac, with a working fan curve | Partly: install tested; Mac steps **Not tested** (need a Mac) |
 | [`1.2-mail-relay.md`](1.2-mail-relay.md) | 1.2 Email, so the host can tell you things | A send-only Postfix relay through your mail provider | 2026-10-09 (to the provider's login) |
 | [`1.3-backups.md`](1.3-backups.md) | 1.3 Backups that tell you when they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
 | [`2.2-wiki-git-hub.md`](2.2-wiki-git-hub.md) | 2.2 One wiki on every machine | A git hub for the wiki, a clone everywhere, and Claude Code hooks that pull and push | 2026-10-09 |
@@ -19,6 +20,7 @@ your AI assistant to carry out on **your** network.
 | [`5.1-uptime-kuma.md`](5.1-uptime-kuma.md) | 5.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
 | [`5.2-syslog-disk-alerts.md`](5.2-syslog-disk-alerts.md) | 5.2 Syslog, disk-health alerts, and email | A central syslog collector with 90-day retention, and SMART alerts proven to arrive | 2026-10-09 |
 | [`6.2-ollama-open-webui.md`](6.2-ollama-open-webui.md) | 6.2 Ollama and Open WebUI | One resident model as a network service, and a chat interface with login | 2026-10-09 (CPU only) |
+| [`9.2-suricata-evebox.md`](9.2-suricata-evebox.md) | 9.2 Suricata and EveBox | A passive IDS sensor proven to see traffic and alert, with EveBox behind a login | 2026-10-09 (container, not a Pi) |
 | [`10.1-nextcloud.md`](10.1-nextcloud.md) | 10.1 Nextcloud | Private file sync on PostgreSQL and Redis, data on its own drive, reachable only over the tailnet | 2026-10-09 (tailnet step untested) |
 
 ## How to use one
