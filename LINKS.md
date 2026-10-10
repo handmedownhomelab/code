@@ -72,7 +72,7 @@ this repository holds the parts worth reusing.
 | [HunyuanVideo 1.5](https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5) | Longer clips that hold a subject's identity | 7.4 |  |
 | [FLUX.1 Kontext [dev]](https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev) | Edits photos from a typed instruction | 7.5 |  |
 | [ACE-Step](https://github.com/ace-step/ACE-Step) | Generates whole songs | 7.6 |  |
-| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | A sandboxed AI agent on local models | 8.1 |  |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | A sandboxed AI agent on local models | 8.1 | [`8.1-hermes-agent.md`](playbooks/8.1-hermes-agent.md) |
 | [Photon](https://photon.codes) | Connects the agent to iMessage | 8.2 |  |
 | [BlueBubbles](https://bluebubbles.app) | The iMessage bridge Photon replaced | 8.2 |  |
 | [osxphotos](https://github.com/RhetTbull/osxphotos) | Exports photos and their data from Apple Photos | 8.4 |  |
