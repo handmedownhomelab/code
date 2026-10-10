@@ -7,20 +7,20 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 |---|---|---|
 | [`1.2/install-mbpfan.sh`](1.2/install-mbpfan.sh) | 1.2 Proxmox on a 2012 Mac mini | Gives a Mac running Linux a working fan curve, with a restart guard |
 | [`1.2/10-restart.conf`](1.2/10-restart.conf) | 1.2 | The systemd drop-in that restarts `mbpfan` if it dies |
-| [`1.3/proxmox-backup-sync.sh`](1.3/proxmox-backup-sync.sh) | 1.3 Backups | Nightly copy of a Proxmox host's backups to another machine; refuses when the source looks wrong |
-| [`1.4/ux7_load_reservations.py`](1.4/ux7_load_reservations.py) | 1.4 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
-| [`1.4/reservations.example.md`](1.4/reservations.example.md) | 1.4 | An example table to start from |
+| [`1.4/proxmox-backup-sync.sh`](1.4/proxmox-backup-sync.sh) | 1.4 Backups | Nightly copy of a Proxmox host's backups to another machine; refuses when the source looks wrong |
+| [`1.5/ux7_load_reservations.py`](1.5/ux7_load_reservations.py) | 1.5 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
+| [`1.5/reservations.example.md`](1.5/reservations.example.md) | 1.5 | An example table to start from |
 | [`2.2/post-receive`](2.2/post-receive), [`2.2/wiki-sync.sh`](2.2/wiki-sync.sh), [`2.2/check-wiki-log.sh`](2.2/check-wiki-log.sh), [`2.2/settings-hooks.json`](2.2/settings-hooks.json) | 2.2 One wiki on four machines | The hub's update hook, and the Claude Code hooks that pull at session start, push at the end, and check for log entries |
 | [`2.5/ssh-menu.sh`](2.5/ssh-menu.sh), [`2.5/m.zsh`](2.5/m.zsh) | 2.5 The Homelab Menu and `audit.sh` | A one-letter launcher for your hosts and frequent commands |
 | [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
-| [`3.2/pihole-sync.sh`](3.2/pihole-sync.sh) | 3.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
-| [`3.3/server_proxy.conf`](3.3/server_proxy.conf) | 3.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
-| [`5.2/10-remote-collector.conf`](5.2/10-remote-collector.conf), [`5.2/prune-remote-logs.sh`](5.2/prune-remote-logs.sh) + `.service` / `.timer` | 5.2 Syslog | The central collector, and 90-day retention |
-| [`5.2/60-forward-to-syslog.conf`](5.2/60-forward-to-syslog.conf) | 5.2 | Forwards a host's logs to the collector over TCP |
-| [`8.1/config.yml`](8.1/config.yml) | 8.1 A video recorder plus Frigate | Frigate: one camera, GPU detection, recording, a speed zone |
-| [`8.2/frigate-detect-watchdog.py`](8.2/frigate-detect-watchdog.py) + `.service` / `.timer` | 8.2 Blind for 45 hours | Emails when Frigate is "healthy" but detecting nothing |
-| [`8.2/frigate-safe-restart.sh`](8.2/frigate-safe-restart.sh), [`8.2/free-ollama-vram.sh`](8.2/free-ollama-vram.sh) | 8.2 | Restart Frigate on a shared GPU, and prove the detector came back |
-| [`9.3/threshold.config`](9.3/threshold.config) | 9.3 Tuning, and the daily AI digest | Suricata suppressions and rate limits, each with its reason |
+| [`3.2/10-remote-collector.conf`](3.2/10-remote-collector.conf), [`3.2/prune-remote-logs.sh`](3.2/prune-remote-logs.sh) + `.service` / `.timer` | 3.2 Syslog | The central collector, and 90-day retention |
+| [`3.2/60-forward-to-syslog.conf`](3.2/60-forward-to-syslog.conf) | 3.2 | Forwards a host's logs to the collector over TCP |
+| [`4.2/pihole-sync.sh`](4.2/pihole-sync.sh) | 4.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
+| [`4.3/server_proxy.conf`](4.3/server_proxy.conf) | 4.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
+| [`10.1/config.yml`](10.1/config.yml) | 10.1 A video recorder plus Frigate | Frigate: one camera, GPU detection, recording, a speed zone |
+| [`10.2/frigate-detect-watchdog.py`](10.2/frigate-detect-watchdog.py) + `.service` / `.timer` | 10.2 Blind for 45 hours | Emails when Frigate is "healthy" but detecting nothing |
+| [`10.2/frigate-safe-restart.sh`](10.2/frigate-safe-restart.sh), [`10.2/free-ollama-vram.sh`](10.2/free-ollama-vram.sh) | 10.2 | Restart Frigate on a shared GPU, and prove the detector came back |
+| [`11.3/threshold.config`](11.3/threshold.config) | 11.3 Tuning, and the daily AI digest | Suricata suppressions and rate limits, each with its reason |
 
 ## Playbooks and links
 
