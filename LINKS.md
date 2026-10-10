@@ -88,7 +88,7 @@ this repository holds the parts worth reusing.
 
 | Program | What it does in the book | Section | Playbook |
 |---|---|---|---|
-| [Frigate](https://frigate.video) | Camera recording and AI object detection | 10.1 |  |
+| [Frigate](https://frigate.video) | Camera recording and AI object detection | 10.1 | [`10.1-frigate.md`](playbooks/10.1-frigate.md) |
 | [Raspberry Pi OS](https://raspberrypi.com/software) | The Raspberry Pis' operating system | 10.4 |  |
 | [speed-camera (pageauc)](https://github.com/pageauc/speed-camera) | Frame-differencing speed measurement for the portable camera | 10.4 |  |
 | [nmap](https://nmap.org) | Host discovery for LanScan's hourly sweep | 11.1 |  |
