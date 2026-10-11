@@ -64,8 +64,8 @@ this repository holds the parts worth reusing.
 | [Open WebUI](https://openwebui.com) | A private chat interface for Ollama | 7.2 | [`7.2-ollama-open-webui.md`](playbooks/7.2-ollama-open-webui.md) |
 | [Gemma 4](https://ollama.com/library/gemma4) | The local language model most of the lab uses | 7.2, 8.5 |  |
 | [Brave Search API](https://brave.com/search/api) | Web search for the chat interface | 7.2 |  |
-| [Forge Neo](https://github.com/Haoming02/sd-webui-forge-classic) | A web interface and API for image models | 7.3 |  |
-| [FLUX.1 [dev]](https://huggingface.co/black-forest-labs/FLUX.1-dev) | The image model | 7.3 |  |
+| [Forge Neo](https://github.com/Haoming02/sd-webui-forge-classic) | A web interface and API for image models | 7.3 | [`7.3-forge-flux.md`](playbooks/7.3-forge-flux.md) |
+| [FLUX.1 [dev]](https://huggingface.co/black-forest-labs/FLUX.1-dev) | The image model | 7.3 | [`7.3-forge-flux.md`](playbooks/7.3-forge-flux.md) |
 | [ComfyUI](https://comfy.org) | Node-based workflows for video models and photo editing | 7.4 |  |
 | [LTX-Video](https://github.com/Lightricks/LTX-Video) | Fast text and photo to video | 7.4 |  |
 | [Wan 2.2](https://github.com/Wan-Video/Wan2.2) | Text and photo to video | 7.4 |  |
