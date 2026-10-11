@@ -40,6 +40,8 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
   network. Start with [`playbooks/README.md`](playbooks/README.md).
 - **[`LINKS.md`](LINKS.md)**: every program the book uses, with its
   website (the book's Appendix E).
+- **[`ERRATA.md`](ERRATA.md)**: corrections to the book's text, by edition
+  and section.
 
 ## Before you run anything
 
