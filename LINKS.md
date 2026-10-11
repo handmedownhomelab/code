@@ -82,17 +82,17 @@ this repository holds the parts worth reusing.
 | [faster-whisper](https://github.com/SYSTRAN/faster-whisper) | Transcribes the home movies | 9.2 |  |
 | [Plex](https://plex.tv) | Plays the home movies on every screen | 9.2 |  |
 | [HDHomeRun](https://silicondust.com) | Over-the-air live TV and DVR for Plex | 9.2 |  |
-| [OpenWebRX+](https://github.com/luarvique/openwebrx) | A web radio receiver | 9.3 |  |
+| [OpenWebRX+](https://github.com/luarvique/openwebrx) | A web radio receiver | 9.3 | [`9.3-openwebrx.md`](playbooks/9.3-openwebrx.md) |
 
 ## Part V — Security
 
 | Program | What it does in the book | Section | Playbook |
 |---|---|---|---|
 | [Frigate](https://frigate.video) | Camera recording and AI object detection | 10.1 | [`10.1-frigate.md`](playbooks/10.1-frigate.md) |
-| [Raspberry Pi OS](https://raspberrypi.com/software) | The Raspberry Pis' operating system | 10.4 |  |
-| [speed-camera (pageauc)](https://github.com/pageauc/speed-camera) | Frame-differencing speed measurement for the portable camera | 10.4 |  |
+| [Raspberry Pi OS](https://raspberrypi.com/software) | The Raspberry Pis' operating system | 10.4 | [`10.4-speed-camera-pi.md`](playbooks/10.4-speed-camera-pi.md) |
+| [speed-camera (pageauc)](https://github.com/pageauc/speed-camera) | Frame-differencing speed measurement for the portable camera | 10.4 | [`10.4-speed-camera-pi.md`](playbooks/10.4-speed-camera-pi.md) |
 | [nmap](https://nmap.org) | Host discovery for LanScan's hourly sweep | 11.1 |  |
 | [Suricata](https://suricata.io) | Intrusion detection | 11.2 | [`11.2-suricata-evebox.md`](playbooks/11.2-suricata-evebox.md) |
 | [EveBox](https://evebox.org) | A web interface for Suricata's alerts | 11.2 | [`11.2-suricata-evebox.md`](playbooks/11.2-suricata-evebox.md) |
 | [Emerging Threats open ruleset](https://rules.emergingthreats.net) | The IDS rules, refreshed nightly | 11.2 |  |
-| [Kismet](https://kismetwireless.net) | Passive Wi-Fi monitoring | 11.4 |  |
+| [Kismet](https://kismetwireless.net) | Passive Wi-Fi monitoring | 11.4 | [`11.4-kismet.md`](playbooks/11.4-kismet.md) |

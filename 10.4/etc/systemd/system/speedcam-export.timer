@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the speed camera CSV export every 10 minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=10min
+# The export is append-only and cursor-driven, so a missed run costs nothing
+# and catches up on the next fire.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,9 @@
+[Unit]
+Description=Keep Kismet's capture source hopping its configured channels; push heartbeat to kuma
+Documentation=file:///usr/local/bin/kismet-hop-watch
+After=network-online.target kismet.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/kismet-hop-watch

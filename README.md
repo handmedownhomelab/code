@@ -27,7 +27,11 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`10.1/config.yml`](10.1/config.yml) | 10.1 A video recorder plus Frigate | Frigate: one camera, GPU detection, recording, a speed zone |
 | [`10.2/frigate-detect-watchdog.py`](10.2/frigate-detect-watchdog.py) + `.service` / `.timer` | 10.2 Blind for 45 hours | Emails when Frigate is "healthy" but detecting nothing |
 | [`10.2/frigate-safe-restart.sh`](10.2/frigate-safe-restart.sh), [`10.2/free-ollama-vram.sh`](10.2/free-ollama-vram.sh) | 10.2 | Restart Frigate on a shared GPU, and prove the detector came back |
+| [`10.4/`](10.4/) | 10.4 A portable speed camera | The whole build: provisioning, key-only SSH, the speed-camera plugin, a clock check that refuses a wrong clock, exposure lock and tuning, an aiming preview, and a CSV exporter. Start with its README |
 | [`11.3/threshold.config`](11.3/threshold.config) | 11.3 Tuning, and the daily AI digest | Suricata suppressions and rate limits, each with its reason |
+| [`11.4/kismet_site.conf`](11.4/kismet_site.conf), [`11.4/99-kismet-unmanaged.conf`](11.4/99-kismet-unmanaged.conf), [`11.4/kismet.service`](11.4/kismet.service) | 11.4 Kismet | The site config with every setting explained, NetworkManager kept off the capture radio, the service |
+| [`11.4/kismet-hop-watch`](11.4/kismet-hop-watch) + `.service` / `.timer` | 11.4 | Puts the channel list back when Kismet drops it, and pushes a heartbeat to Uptime Kuma only while capture is healthy |
+| [`11.4/kismet-log-maintenance.sh`](11.4/kismet-log-maintenance.sh) | 11.4 | Prunes Kismet's per-run logs, where logrotate can't |
 
 ## Playbooks and links
 

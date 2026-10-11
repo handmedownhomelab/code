@@ -1,0 +1,200 @@
+#!/usr/bin/python3
+"""kismet-hop-watch — Hand-Me-Down Homelab, section 11.4.
+
+Keep Kismet's capture source (KISMET_SOURCE, default "alfa") hopping its configured channels,
+and push a deadman heartbeat to kuma while it is.
+
+Why it exists: on 2026-09-14 a Kismet stall killed the capture helpers, and
+when Kismet re-opened `alfa` it rebuilt the source definition WITHOUT the
+quotes around channels="1,2,...,161" — only `channels=1` survived. alfa then
+hopped on 2.4 GHz channel 1 alone for 3.5 h with no 5 GHz capture, and nothing
+noticed. Any source re-open (a stall, a USB hiccup) does the same.
+
+Each run (every 5 min, kismet-hop-watch.timer):
+  1. Read the expected channel list and hop rate from kismet_site.conf — the
+     config is the single source of truth, nothing is duplicated here.
+  2. Read /datasource/all_sources.json (cheap — NEVER the device list, which
+     is what stalled Kismet in the first place).
+  3. If alfa's hop list differs, re-apply it with set_channel.cmd.
+     (set_hop.cmd does NOT restore a list; it re-enables hopping on the
+     current, collapsed one.)
+  4. Push status=up to kuma only if alfa is running, hopping the expected
+     channels, and its packet counter moved since the last run.
+
+Deadman semantics: Kismet down, alfa in error, a capture that stopped
+counting packets, an unrepairable hop list, a config that will not parse, a
+broken LAN path to kuma — every one produces silence, and kuma's push monitor
+goes DOWN on the missed beats. The silence is the report.
+
+Exit codes: 0 for every "not pushing" path, deliberately — if you instrument
+timer services with OnFailure= mail (as the author does), then a non-zero exit every 5 min
+would mail for the whole length of an outage kuma already reports once.
+Exit 1 ONLY after a successful repair: that is a one-off event kuma cannot
+see (the next heartbeat is healthy), so it mails exactly once via
+that OnFailure= hook. Do not "fix" either convention.
+
+Push to kuma's direct address (in the env file), not a DNS name behind your
+proxy, so a DNS or proxy outage cannot fire a false alert.
+
+Install: /usr/local/bin/kismet-hop-watch (0755), the .service and .timer in
+/etc/systemd/system/, and /etc/kismet-hop-watch.env (0600, root):
+    KISMET_URL=http://127.0.0.1:2501
+    KISMET_USER=...
+    KISMET_PASS=...
+    KUMA_PUSH_URL=http://<kuma-ip>:3001/api/push/<token>
+    KISMET_SOURCE=alfa          # optional: the name= of your source= line
+"""
+import base64
+import os
+import json
+import re
+import sys
+import urllib.parse
+import urllib.request
+
+ENV_FILE   = "/etc/kismet-hop-watch.env"   # KISMET_URL KISMET_USER KISMET_PASS KUMA_PUSH_URL (0600)
+SITE_CONF  = "/usr/local/etc/kismet_site.conf"
+STATE_FILE = "/run/kismet-hop-watch.packets"
+SOURCE     = "alfa"   # overridden by KISMET_SOURCE in the env file
+
+
+def say(msg: str) -> None:
+    print(f"kismet-hop-watch: {msg}", flush=True)
+
+
+def load_env() -> dict:
+    env = {}
+    with open(ENV_FILE) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                env[k.strip()] = v.strip().strip('"').strip("'")
+    return env
+
+
+def expected_from_conf() -> tuple[list[str], int]:
+    text = open(SITE_CONF).read()
+    src = [l for l in text.splitlines()
+           if l.startswith("source=") and f"name={SOURCE}" in l]
+    if len(src) != 1:
+        raise ValueError(f"{len(src)} active source= lines name {SOURCE}")
+    m = re.search(r'channels="([^"]+)"', src[0])
+    if not m:
+        raise ValueError(f'no quoted channels="..." on the {SOURCE} source line')
+    chans = [c.strip() for c in m.group(1).split(",") if c.strip()]
+    r = re.search(r"^channel_hop_speed=(\d+)/sec\s*$", text, re.M)
+    if not r:
+        raise ValueError("no channel_hop_speed=<n>/sec line")
+    return chans, int(r.group(1))
+
+
+def kismet(env: dict, path: str, payload=None):
+    req = urllib.request.Request(env["KISMET_URL"].rstrip("/") + path)
+    auth = base64.b64encode(f'{env["KISMET_USER"]}:{env["KISMET_PASS"]}'.encode()).decode()
+    req.add_header("Authorization", f"Basic {auth}")
+    if payload is not None:
+        req.data = json.dumps(payload).encode()
+        req.add_header("Content-Type", "application/json")
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        return json.loads(resp.read().decode())
+
+
+def find_source(env: dict) -> dict | None:
+    for s in kismet(env, "/datasource/all_sources.json") or []:
+        if s.get("kismet.datasource.name") == SOURCE:
+            return s
+    return None
+
+
+def push(env: dict, msg: str) -> None:
+    url = env["KUMA_PUSH_URL"] + "?" + urllib.parse.urlencode({"status": "up", "msg": msg})
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            body = json.loads(resp.read().decode() or "{}")
+        if body.get("ok"):
+            say(f"{msg} — pushed")
+        else:
+            say(f"{msg} but kuma rejected the push: {body.get('msg')}")
+    except Exception as e:
+        say(f"{msg} but the push to kuma failed: {e}")
+
+
+def main() -> int:
+    try:
+        env = load_env()
+        global SOURCE
+        SOURCE = env.get("KISMET_SOURCE") or SOURCE
+        for k in ("KISMET_URL", "KISMET_USER", "KISMET_PASS", "KUMA_PUSH_URL"):
+            if not env.get(k):
+                raise KeyError(k)
+    except Exception as e:
+        say(f"cannot load {ENV_FILE} ({e}) — not pushing")
+        return 0
+
+    try:
+        expected, rate = expected_from_conf()
+    except Exception as e:
+        say(f"cannot parse {SITE_CONF}: {e} — not repairing, not pushing")
+        return 0
+
+    try:
+        src = find_source(env)
+    except Exception as e:
+        say(f"Kismet API unreachable: {e} — not pushing")
+        return 0
+    if src is None:
+        say(f"no datasource named {SOURCE} — not pushing")
+        return 0
+    if not src.get("kismet.datasource.running") or src.get("kismet.datasource.error"):
+        say(f"{SOURCE} not running (error: {src.get('kismet.datasource.error_reason') or '-'}) "
+            "— Kismet retries the open itself; not pushing")
+        return 0
+
+    repaired = None
+    current = src.get("kismet.datasource.hop_channels") or []
+    if not src.get("kismet.datasource.hopping") or set(current) != set(expected):
+        before = f"hopping={src.get('kismet.datasource.hopping')} on {len(current)} channel(s) {current[:6]}"
+        say(f"{SOURCE} {before}, expected {len(expected)} — re-applying from {SITE_CONF}")
+        try:
+            kismet(env, f"/datasource/by-uuid/{src['kismet.datasource.uuid']}/set_channel.cmd",
+                   {"channels": expected, "hoprate": rate, "shuffle": 1})
+            src = find_source(env) or {}
+        except Exception as e:
+            say(f"repair call failed: {e} — not pushing")
+            return 0
+        current = src.get("kismet.datasource.hop_channels") or []
+        if not src.get("kismet.datasource.hopping") or set(current) != set(expected):
+            say(f"repair did not take ({len(current)} channel(s)) — not pushing")
+            return 0
+        repaired = before
+
+    packets = int(src.get("kismet.datasource.num_packets") or 0)
+    try:
+        last = int(open(STATE_FILE).read().strip())
+    except Exception:
+        last = None
+    try:
+        with open(STATE_FILE, "w") as f:
+            f.write(str(packets))
+    except Exception as e:
+        say(f"cannot write {STATE_FILE}: {e}")
+    # A lower count means the source re-opened or Kismet restarted: progress.
+    if last is not None and packets == last:
+        say(f"{SOURCE} packet counter stuck at {packets} since last run — capture stalled, not pushing")
+        return 0
+
+    msg = f"{SOURCE} hopping {len(current)}/{len(expected)} ch @ {rate}/s, {packets} pkts"
+    if repaired:
+        msg += " (repaired)"
+    push(env, msg)
+
+    if repaired:
+        say(f"REPAIRED: {SOURCE} was {repaired}; restored {len(expected)} channels. "
+            "Exiting 1 so an OnFailure= hook reports this once.")
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

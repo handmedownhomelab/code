@@ -1,0 +1,29 @@
+[Unit]
+Description=Speed camera (pageauc speed-cam.py, PS3 Eye)
+Documentation=https://github.com/pageauc/speed-camera
+After=multi-user.target
+Wants=speedcam-export.timer
+
+[Service]
+Type=simple
+User=YOUR_USER
+Group=YOUR_USER
+SupplementaryGroups=video
+WorkingDirectory=/opt/speed-camera
+# Refuse to run on an untrustworthy clock - every row is timestamped with it.
+# A refused start fails the unit; Restart=on-failure retries every 15 s, so it
+# proceeds by itself once NTP syncs, and stays visibly failing if it never can.
+ExecStartPre=/usr/local/bin/speedcam-clock-check.sh
+ExecStartPre=/usr/local/bin/speedcam-camera-init.sh /dev/video0
+ExecStart=/usr/bin/python3 /opt/speed-camera/speed-cam.py
+Restart=on-failure
+RestartSec=15
+StandardOutput=journal
+StandardError=journal
+
+# The USB bus is the bottleneck on a Pi 3B; keep the tracker off the same
+# core contention as everything else but do not starve it.
+Nice=-5
+
+[Install]
+WantedBy=multi-user.target

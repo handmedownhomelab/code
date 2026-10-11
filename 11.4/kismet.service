@@ -1,0 +1,20 @@
+# kismet.service — Hand-Me-Down Homelab, section 11.4.
+# For a Kismet built from source and installed with `make suidinstall`
+# (binaries in /usr/local/bin, capture helpers setuid and group kismet).
+# Run as your own account in group kismet, not as root.
+[Unit]
+Description=Kismet Wireless IDS
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=YOUR_USER
+Group=kismet
+ExecStart=/usr/local/bin/kismet --no-ncurses
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

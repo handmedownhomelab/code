@@ -1,0 +1,21 @@
+[Unit]
+Description=Live MJPEG preview for aiming the speed camera (port 8081)
+# Both hold /dev/video0. Conflicts= makes systemd stop the tracker when the
+# preview starts and vice versa, instead of the second one failing to open the
+# device with a confusing error.
+Conflicts=speed-camera.service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=YOUR_USER
+Group=YOUR_USER
+SupplementaryGroups=video
+ExecStartPre=/usr/local/bin/speedcam-camera-init.sh /dev/video0
+ExecStart=/usr/bin/python3 /usr/local/bin/speedcam-preview.py
+Restart=no
+StandardOutput=journal
+StandardError=journal
+
+# Deliberately NOT [Install]/WantedBy - this must never come up at boot.
+# It is an aiming tool, it holds the camera, and it is unauthenticated.

@@ -1,0 +1,11 @@
+[Unit]
+Description=Export speed-cam sqlite events to the traffic CSV
+After=speed-camera.service
+
+[Service]
+Type=oneshot
+User=YOUR_USER
+Group=YOUR_USER
+ExecStart=/usr/bin/python3 /opt/speed-camera/speedcam_export.py
+StandardOutput=journal
+StandardError=journal
