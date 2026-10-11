@@ -66,10 +66,10 @@ this repository holds the parts worth reusing.
 | [Brave Search API](https://brave.com/search/api) | Web search for the chat interface | 7.2 |  |
 | [Forge Neo](https://github.com/Haoming02/sd-webui-forge-classic) | A web interface and API for image models | 7.3 | [`7.3-forge-flux.md`](playbooks/7.3-forge-flux.md) |
 | [FLUX.1 [dev]](https://huggingface.co/black-forest-labs/FLUX.1-dev) | The image model | 7.3 | [`7.3-forge-flux.md`](playbooks/7.3-forge-flux.md) |
-| [ComfyUI](https://comfy.org) | Node-based workflows for video models and photo editing | 7.4 |  |
-| [LTX-Video](https://github.com/Lightricks/LTX-Video) | Fast text and photo to video | 7.4 |  |
-| [Wan 2.2](https://github.com/Wan-Video/Wan2.2) | Text and photo to video | 7.4 |  |
-| [HunyuanVideo 1.5](https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5) | Longer clips that hold a subject's identity | 7.4 |  |
+| [ComfyUI](https://comfy.org) | Node-based workflows for video models and photo editing | 7.4 | [`7.4-comfyui.md`](playbooks/7.4-comfyui.md) |
+| [LTX-Video](https://github.com/Lightricks/LTX-Video) | Fast text and photo to video | 7.4 | [`7.4-comfyui.md`](playbooks/7.4-comfyui.md) |
+| [Wan 2.2](https://github.com/Wan-Video/Wan2.2) | Text and photo to video | 7.4 | [`7.4-comfyui.md`](playbooks/7.4-comfyui.md) |
+| [HunyuanVideo 1.5](https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5) | Longer clips that hold a subject's identity | 7.4 | [`7.4-comfyui.md`](playbooks/7.4-comfyui.md) |
 | [FLUX.1 Kontext [dev]](https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev) | Edits photos from a typed instruction | 7.5 |  |
 | [ACE-Step](https://github.com/ace-step/ACE-Step) | Generates whole songs | 7.6 |  |
 | [Hermes Agent](https://github.com/NousResearch/hermes-agent) | A sandboxed AI agent on local models | 8.1 | [`8.1-hermes-agent.md`](playbooks/8.1-hermes-agent.md) |

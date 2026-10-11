@@ -1,0 +1,70 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {"title": "Load Checkpoint"},
+    "inputs": {"ckpt_name": "ltx-video-2b-v0.9.5.safetensors"}
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "_meta": {"title": "Load CLIP"},
+    "inputs": {"clip_name": "t5xxl_fp16.safetensors", "type": "ltxv", "device": "default"}
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {"title": "Positive Prompt"},
+    "inputs": {"clip": ["2", 0], "text": "gentle natural motion"}
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {"title": "Negative Prompt"},
+    "inputs": {"clip": ["2", 0], "text": "low quality, worst quality, deformed, distorted, watermark"}
+  },
+  "12": {
+    "class_type": "LoadImage",
+    "_meta": {"title": "Load Image"},
+    "inputs": {"image": "example.png"}
+  },
+  "7": {
+    "class_type": "LTXVImgToVideo",
+    "_meta": {"title": "LTXV Img To Video"},
+    "inputs": {
+      "positive": ["4", 0], "negative": ["5", 0], "vae": ["1", 2],
+      "image": ["12", 0], "width": 768, "height": 512, "length": 97,
+      "batch_size": 1, "strength": 1.0
+    }
+  },
+  "13": {
+    "class_type": "LTXVConditioning",
+    "_meta": {"title": "LTXV Conditioning"},
+    "inputs": {"positive": ["7", 0], "negative": ["7", 1], "frame_rate": 25}
+  },
+  "6": {
+    "class_type": "ModelSamplingLTXV",
+    "_meta": {"title": "ModelSamplingLTXV"},
+    "inputs": {"model": ["1", 0], "max_shift": 2.05, "base_shift": 0.95, "latent": ["7", 2]}
+  },
+  "8": {
+    "class_type": "KSampler",
+    "_meta": {"title": "KSampler"},
+    "inputs": {
+      "model": ["6", 0], "positive": ["13", 0], "negative": ["13", 1],
+      "latent_image": ["7", 2], "seed": 0, "steps": 30, "cfg": 3.0,
+      "sampler_name": "euler", "scheduler": "normal", "denoise": 1.0
+    }
+  },
+  "9": {
+    "class_type": "VAEDecode",
+    "_meta": {"title": "VAE Decode"},
+    "inputs": {"samples": ["8", 0], "vae": ["1", 2]}
+  },
+  "10": {
+    "class_type": "CreateVideo",
+    "_meta": {"title": "Create Video"},
+    "inputs": {"images": ["9", 0], "fps": 25}
+  },
+  "11": {
+    "class_type": "SaveVideo",
+    "_meta": {"title": "Save Video"},
+    "inputs": {"video": ["10", 0], "filename_prefix": "ltx/i2v", "format": "mp4", "codec": "h264"}
+  }
+}
