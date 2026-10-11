@@ -21,6 +21,8 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`7.3/forge-image/`](7.3/forge-image/) | 7.3 | A Claude Code skill: generate with Forge, look at the image, critique, go again |
 | [`7.4/comfyui-run.sh`](7.4/comfyui-run.sh), [`7.4/comfy.zsh`](7.4/comfy.zsh) | 7.4 ComfyUI | Start ComfyUI only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |
 | [`7.4/comfyui-video/`](7.4/comfyui-video/) | 7.4 | A Claude Code skill: Wan 2.2 or LTX-Video clips from text or a still, longer clips by chaining, frames pulled and critiqued; four API-format templates |
+| [`7.6/acestep-run.sh`](7.6/acestep-run.sh), [`7.6/music.zsh`](7.6/music.zsh) | 7.6 ACE-Step | Start ACE-Step only after freeing the GPU, offload on, through an SSH tunnel; Ctrl-C loads the chat model back |
+| [`7.6/acestep_batch.py`](7.6/acestep_batch.py) | 7.6 | Several tracks from a job file, without the web interface |
 | [`8.1/watch_page.py`](8.1/watch_page.py) | 8.1 Hermes | A page watcher for a Hermes script-only cron job: silent until the page changes |
 | [`10.1/config.yml`](10.1/config.yml) | 10.1 A video recorder plus Frigate | Frigate: one camera, GPU detection, recording, a speed zone |
 | [`10.2/frigate-detect-watchdog.py`](10.2/frigate-detect-watchdog.py) + `.service` / `.timer` | 10.2 Blind for 45 hours | Emails when Frigate is "healthy" but detecting nothing |
