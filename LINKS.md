@@ -56,10 +56,10 @@ this repository holds the parts worth reusing.
 
 | Program | What it does in the book | Section | Playbook |
 |---|---|---|---|
-| [Linux Mint](https://linuxmint.com) | The GPU tower's operating system | 7.1 |  |
-| [NVIDIA driver](https://nvidia.com/en-us/drivers) | Runs the graphics card | 7.1 |  |
-| [Docker Engine](https://docs.docker.com/engine/install) | Runs the AI apps in containers | 7.1 |  |
-| [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit) | Gives containers the graphics card | 7.1 |  |
+| [Linux Mint](https://linuxmint.com) | The GPU tower's operating system | 7.1 | [`7.1-gpu-box.md`](playbooks/7.1-gpu-box.md) |
+| [NVIDIA driver](https://nvidia.com/en-us/drivers) | Runs the graphics card | 7.1 | [`7.1-gpu-box.md`](playbooks/7.1-gpu-box.md) |
+| [Docker Engine](https://docs.docker.com/engine/install) | Runs the AI apps in containers | 7.1 | [`7.1-gpu-box.md`](playbooks/7.1-gpu-box.md) |
+| [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit) | Gives containers the graphics card | 7.1 | [`7.1-gpu-box.md`](playbooks/7.1-gpu-box.md) |
 | [Ollama](https://ollama.com) | Runs language models locally | 7.2 | [`7.2-ollama-open-webui.md`](playbooks/7.2-ollama-open-webui.md) |
 | [Open WebUI](https://openwebui.com) | A private chat interface for Ollama | 7.2 | [`7.2-ollama-open-webui.md`](playbooks/7.2-ollama-open-webui.md) |
 | [Gemma 4](https://ollama.com/library/gemma4) | The local language model most of the lab uses | 7.2, 8.5 |  |
