@@ -6,6 +6,7 @@ your AI assistant to carry out on **your** network.
 
 | Playbook | Section | Builds | Tested |
 |---|---|---|---|
+| [`1.1-live-usb.md`](1.1-live-usb.md) | 1.1 The hardware pile | A Linux Mint live USB, booted on the old machine without touching its disk, and the appraisal run from it | **Not tested** (needs a spare PC; written from Linux Mint's and balenaEtcher's documentation) |
 | [`1.2-proxmox-mac-mini.md`](1.2-proxmox-mac-mini.md) | 1.2 Proxmox on a 2012 Mac mini | Proxmox VE on an old PC or Intel Mac, with a working fan curve | Partly: install tested; Mac steps **Not tested** (need a Mac) |
 | [`1.4-backups.md`](1.4-backups.md) | 1.4 Backups that tell you when they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
 | [`2.2-wiki-git-hub.md`](2.2-wiki-git-hub.md) | 2.2 One wiki on every machine | A git hub for the wiki, a clone everywhere, and Claude Code hooks that pull and push | 2026-10-09 |

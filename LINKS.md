@@ -13,6 +13,8 @@ this repository holds the parts worth reusing.
 
 | Program | What it does in the book | Section | Playbook |
 |---|---|---|---|
+| [Linux Mint](https://linuxmint.com) (live USB) | Appraising a machine before you install anything, from a USB stick | 1.1 | [`1.1-live-usb.md`](playbooks/1.1-live-usb.md) |
+| [balenaEtcher](https://etcher.balena.io) | Writes a Linux image to a USB stick | 1.1 | [`1.1-live-usb.md`](playbooks/1.1-live-usb.md) |
 | [Proxmox VE](https://proxmox.com) | Hypervisor: virtual machines and containers on old hardware | 1.2 | [`1.2-proxmox-mac-mini.md`](playbooks/1.2-proxmox-mac-mini.md) |
 | [mbpfan](https://github.com/linux-on-mac/mbpfan) | A working fan curve for a Mac running Linux | 1.2 | [`1.2-proxmox-mac-mini.md`](playbooks/1.2-proxmox-mac-mini.md) |
 | [UniFi Network](https://ui.com) | The gateway, switches, access points and DHCP | 1.5 |  |
