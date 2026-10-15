@@ -15,8 +15,8 @@ hardware — and an AI runs it*. Folders are named after the book's sections.
 | [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
 | [`3.2/10-remote-collector.conf`](3.2/10-remote-collector.conf), [`3.2/prune-remote-logs.sh`](3.2/prune-remote-logs.sh) + `.service` / `.timer` | 3.2 Syslog | The central collector, and 90-day retention |
 | [`3.2/60-forward-to-syslog.conf`](3.2/60-forward-to-syslog.conf) | 3.2 | Forwards a host's logs to the collector over TCP |
-| [`4.2/pihole-sync.sh`](4.2/pihole-sync.sh) | 4.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
-| [`4.3/server_proxy.conf`](4.3/server_proxy.conf) | 4.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
+| [`6.2/pihole-sync.sh`](6.2/pihole-sync.sh) | 6.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
+| [`6.3/server_proxy.conf`](6.3/server_proxy.conf) | 6.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
 | [`7.3/forge-run.sh`](7.3/forge-run.sh), [`7.3/forge.zsh`](7.3/forge.zsh) | 7.3 Forge and FLUX | Start Forge only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |
 | [`7.3/forge-image/`](7.3/forge-image/) | 7.3 | A Claude Code skill: generate with Forge, look at the image, critique, go again |
 | [`7.4/comfyui-run.sh`](7.4/comfyui-run.sh), [`7.4/comfy.zsh`](7.4/comfy.zsh) | 7.4 ComfyUI | Start ComfyUI only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |

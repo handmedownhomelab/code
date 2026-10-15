@@ -1,6 +1,6 @@
 #!/bin/bash
 # pihole-sync.sh — keep a secondary Pi-hole (v6) in step with the primary.
-# Hand-Me-Down Homelab, section 4.2.
+# Hand-Me-Down Homelab, section 6.2.
 #
 # One-way: the primary is the source of truth. The script logs into the
 # primary's API, downloads its teleporter export, and imports it here, but only
@@ -27,7 +27,7 @@
 #
 # `curl -k` skips certificate checks, because a home Pi-hole usually has a
 # private or self-signed certificate. If yours chains to a CA this machine
-# trusts (section 4.4), you can drop the -k.
+# trusts (section 6.4), you can drop the -k.
 #
 # WHY THE CHANGE GATE, AND WHY NO RESTART: the original version imported and
 # then ran `systemctl restart pihole-FTL` every 15 minutes. But the import

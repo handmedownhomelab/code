@@ -28,31 +28,31 @@ this repository holds the parts worth reusing.
 | [smartmontools](https://smartmontools.org) | Disk health checks and alerts | 3.2 | [`3.2-syslog-disk-alerts.md`](playbooks/3.2-syslog-disk-alerts.md) |
 | [Postfix](https://postfix.org) | Sends the lab's email alerts through a mail relay | 3.3 | [`3.3-mail-relay.md`](playbooks/3.3-mail-relay.md) |
 
-## Part II — Your network
+## Part II — The smart home
 
 | Program | What it does in the book | Section | Playbook |
 |---|---|---|---|
-| [Pi-hole](https://pi-hole.net) | DNS resolver, local names and ad blocking | 4.1 | [`4.1-pihole.md`](playbooks/4.1-pihole.md) |
-| [NGINX Proxy Manager](https://nginxproxymanager.com) | One front door for every web interface | 4.3 | [`4.3-proxy-manager.md`](playbooks/4.3-proxy-manager.md) |
-| [acme.sh](https://github.com/acmesh-official/acme.sh) | Requests and renews certificates | 4.3 | [`4.4-private-ca.md`](playbooks/4.4-private-ca.md) |
-| [step-ca](https://smallstep.com/docs/step-ca) | Your own certificate authority | 4.4 | [`4.4-private-ca.md`](playbooks/4.4-private-ca.md) |
-| [Tailscale](https://tailscale.com) | Remote access with no open ports | 4.5 | [`4.5-tailscale.md`](playbooks/4.5-tailscale.md) |
+| [Home Assistant](https://home-assistant.io) | Runs the smart home | 4.1 | [`4.1-home-assistant-vm.md`](playbooks/4.1-home-assistant-vm.md) |
+| [Mosquitto](https://mosquitto.org) | The MQTT message broker | 4.1 | [`4.1-home-assistant-vm.md`](playbooks/4.1-home-assistant-vm.md) |
+| [MQTT Explorer](https://mqtt-explorer.com) | Watches MQTT messages go by, for debugging | 4.1 |  |
+| [HACS](https://hacs.xyz) | The Home Assistant Community Store | 4.1 |  |
+| [Piper](https://github.com/rhasspy/piper) | Local text-to-speech: the door-chime voice | 4.2 |  |
+| [ESPHome](https://esphome.io) | Firmware for small sensor boards | 4.3 |  |
+| [WLED](https://kno.wled.ge) | Firmware for addressable LED strips | 4.4 |  |
+| [Glances](https://nicolargo.github.io/glances) | A monitoring agent for the hosts that aren't Proxmox | 5.2 |  |
+| [ha-mcp](https://github.com/homeassistant-ai/ha-mcp) | Lets an AI assistant work Home Assistant's tools | 5.5 | [`5.5-ha-mcp.md`](playbooks/5.5-ha-mcp.md) |
+| [Whisper (Wyoming add-on)](https://github.com/rhasspy/wyoming-faster-whisper) | Speech to text for Home Assistant's voice assistant | 5.5 |  |
+| [Extended OpenAI Conversation](https://github.com/jekalmin/extended_openai_conversation) | Hands Assist's requests to any OpenAI-compatible agent | 5.5 |  |
 
-## Part III — The smart home
+## Part III — Your network
 
 | Program | What it does in the book | Section | Playbook |
 |---|---|---|---|
-| [Home Assistant](https://home-assistant.io) | Runs the smart home | 5.1 | [`5.1-home-assistant-vm.md`](playbooks/5.1-home-assistant-vm.md) |
-| [Mosquitto](https://mosquitto.org) | The MQTT message broker | 5.1 | [`5.1-home-assistant-vm.md`](playbooks/5.1-home-assistant-vm.md) |
-| [MQTT Explorer](https://mqtt-explorer.com) | Watches MQTT messages go by, for debugging | 5.1 |  |
-| [HACS](https://hacs.xyz) | The Home Assistant Community Store | 5.1 |  |
-| [Piper](https://github.com/rhasspy/piper) | Local text-to-speech: the door-chime voice | 5.2 |  |
-| [ESPHome](https://esphome.io) | Firmware for small sensor boards | 5.3 |  |
-| [WLED](https://kno.wled.ge) | Firmware for addressable LED strips | 5.4 |  |
-| [Glances](https://nicolargo.github.io/glances) | A monitoring agent for the hosts that aren't Proxmox | 6.2 |  |
-| [ha-mcp](https://github.com/homeassistant-ai/ha-mcp) | Lets an AI assistant work Home Assistant's tools | 6.5 | [`6.5-ha-mcp.md`](playbooks/6.5-ha-mcp.md) |
-| [Whisper (Wyoming add-on)](https://github.com/rhasspy/wyoming-faster-whisper) | Speech to text for Home Assistant's voice assistant | 6.5 |  |
-| [Extended OpenAI Conversation](https://github.com/jekalmin/extended_openai_conversation) | Hands Assist's requests to any OpenAI-compatible agent | 6.5 |  |
+| [Pi-hole](https://pi-hole.net) | DNS resolver, local names and ad blocking | 6.1 | [`6.1-pihole.md`](playbooks/6.1-pihole.md) |
+| [NGINX Proxy Manager](https://nginxproxymanager.com) | One front door for every web interface | 6.3 | [`6.3-proxy-manager.md`](playbooks/6.3-proxy-manager.md) |
+| [acme.sh](https://github.com/acmesh-official/acme.sh) | Requests and renews certificates | 6.3 | [`6.4-private-ca.md`](playbooks/6.4-private-ca.md) |
+| [step-ca](https://smallstep.com/docs/step-ca) | Your own certificate authority | 6.4 | [`6.4-private-ca.md`](playbooks/6.4-private-ca.md) |
+| [Tailscale](https://tailscale.com) | Remote access with no open ports | 6.5 | [`6.5-tailscale.md`](playbooks/6.5-tailscale.md) |
 
 ## Part IV — Your own AI, and apps
 

@@ -11,7 +11,7 @@
 
 mqtt:
   enabled: true
-  host: 10.20.3.172          # Home Assistant's MQTT broker (section 5.1)
+  host: 10.20.3.172          # Home Assistant's MQTT broker (section 4.1)
   port: 1883
   user: frigate_mqtt
   password: '{FRIGATE_MQTT_PASSWORD}'

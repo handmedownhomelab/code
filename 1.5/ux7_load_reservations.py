@@ -118,7 +118,7 @@ MANAGED_CIDRS = (
 EXPECTED = {
     "lan_subnet": "10.20.0.0/22",
     "gateway_ip": "10.20.0.1",
-    # DHCP's DNS servers, in order: here, the two Pi-holes (section 4.1–4.2).
+    # DHCP's DNS servers, in order: here, the two Pi-holes (section 6.1–6.2).
     "dns": ["10.20.3.173", "10.20.0.26"],
     # 4 hours. Short leases make a DNS or address change reach clients quickly;
     # a 24-hour lease is what made a DNS switch look broken in the book's lab.

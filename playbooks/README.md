@@ -8,18 +8,18 @@ your AI assistant to carry out on **your** network.
 |---|---|---|---|
 | [`1.1-live-usb.md`](1.1-live-usb.md) | 1.1 The hardware pile | A Linux Mint live USB, booted on the old machine without touching its disk, and the appraisal run from it | **Not tested** (needs a spare PC; written from Linux Mint's and balenaEtcher's documentation) |
 | [`1.2-proxmox-mac-mini.md`](1.2-proxmox-mac-mini.md) | 1.2 Proxmox on a 2012 Mac mini | Proxmox VE on an old PC or Intel Mac, with a working fan curve | Partly: install tested; Mac steps **Not tested** (need a Mac) |
-| [`1.4-backups.md`](1.4-backups.md) | 1.4 Backups that tell you when they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
+| [`1.4-backups.md`](1.4-backups.md) | 1.4 Backups that tell you if they fail | USB backups that refuse to fill the root disk, heal themselves, and get copied off the host | 2026-10-09 (nested Proxmox) |
 | [`2.2-wiki-git-hub.md`](2.2-wiki-git-hub.md) | 2.2 One wiki on every machine | A git hub for the wiki, a clone everywhere, and Claude Code hooks that pull and push | 2026-10-09 |
 | [`3.1-uptime-kuma.md`](3.1-uptime-kuma.md) | 3.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
 | [`3.2-syslog-disk-alerts.md`](3.2-syslog-disk-alerts.md) | 3.2 Central syslog, and disk-health alerts | A central syslog collector with 90-day retention, and SMART alerts proven to arrive | 2026-10-09 |
 | [`3.3-mail-relay.md`](3.3-mail-relay.md) | 3.3 Email that actually arrives | A send-only Postfix relay through your mail provider | 2026-10-09 (to the provider's login) |
-| [`4.1-pihole.md`](4.1-pihole.md) | 4.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
-| [`4.2-second-pihole.md`](4.2-second-pihole.md) | 4.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `4.2/pihole-sync.sh` | 2026-10-08 |
-| [`4.3-proxy-manager.md`](4.3-proxy-manager.md) | 4.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
-| [`4.4-private-ca.md`](4.4-private-ca.md) | 4.4 Your own certificate authority | Step-CA with ACME, 90-day self-renewing certificates, trusted devices | 2026-10-09 |
-| [`4.5-tailscale.md`](4.5-tailscale.md) | 4.5 Tailscale | Your devices on a tailnet, a subnet router, tailnet DNS, no open ports | 2026-10-09 |
-| [`5.1-home-assistant-vm.md`](5.1-home-assistant-vm.md) | 5.1 Home Assistant in a Proxmox VM | Home Assistant OS as a VM, claimed by you, behind the proxy, with Mosquitto | 2026-10-09 (add-ons in the UI untested) |
-| [`6.5-ha-mcp.md`](6.5-ha-mcp.md) | 6.5 Claude drives Home Assistant through MCP | ha-mcp in Claude Code with its own token, starting in Read Only Mode | 2026-10-09 (reads only) |
+| [`4.1-home-assistant-vm.md`](4.1-home-assistant-vm.md) | 4.1 Home Assistant in a Proxmox VM | Home Assistant OS as a VM, claimed by you, behind the proxy, with Mosquitto | 2026-10-09 (add-ons in the UI untested) |
+| [`5.5-ha-mcp.md`](5.5-ha-mcp.md) | 5.5 Claude drives Home Assistant through MCP | ha-mcp in Claude Code with its own token, starting in Read Only Mode | 2026-10-09 (reads only) |
+| [`6.1-pihole.md`](6.1-pihole.md) | 6.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
+| [`6.2-second-pihole.md`](6.2-second-pihole.md) | 6.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `6.2/pihole-sync.sh` | 2026-10-08 |
+| [`6.3-proxy-manager.md`](6.3-proxy-manager.md) | 6.3 NGINX Proxy Manager: one front door | NPM in Docker, a proxy host with WebSockets, self-renewing certificates from your CA | 2026-10-09 |
+| [`6.4-private-ca.md`](6.4-private-ca.md) | 6.4 Your own certificate authority | Step-CA with ACME, 90-day self-renewing certificates, trusted devices | 2026-10-09 |
+| [`6.5-tailscale.md`](6.5-tailscale.md) | 6.5 Tailscale | Your devices on a tailnet, a subnet router, tailnet DNS, no open ports | 2026-10-09 |
 | [`7.1-gpu-box.md`](7.1-gpu-box.md) | 7.1 Building the GPU box | Mint with an NVIDIA driver for your card, persistence mode, Docker and the Container Toolkit, a firewall that covers Docker's ports, updates that leave the GPU stack alone | **Not tested** (needs a spare NVIDIA card; written from the author's working machine) |
 | [`7.2-ollama-open-webui.md`](7.2-ollama-open-webui.md) | 7.2 Ollama and Open WebUI | One resident model as a network service, and a chat interface with login | 2026-10-09 (CPU only) |
 | [`7.3-forge-flux.md`](7.3-forge-flux.md) | 7.3 Forge and FLUX | Forge Neo with FLUX.1 [dev], a launcher that frees the card first, a tunnel instead of an open port, and a Claude Code skill that looks at its own images | **Not tested** (needs the GPU; written from the author's working machine) |
@@ -40,7 +40,7 @@ your AI assistant to carry out on **your** network.
    script before running it.
 2. **Give your AI the copy you read**, not the web address, so the file you
    read is the file that runs. Each playbook's short address is
-   `handmedownhomelab.com/p/<name>`, e.g. `handmedownhomelab.com/p/4.1-pihole`.
+   `handmedownhomelab.com/p/<name>`, e.g. `handmedownhomelab.com/p/6.1-pihole`.
    Releases are tagged if you'd rather work from a fixed version.
 3. Start a session with your assistant (the book uses Claude Code; any
    capable assistant that can run commands will do), give it the file, and
