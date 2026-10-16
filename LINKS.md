@@ -3,7 +3,7 @@
 Every program, service and AI model in *Hand-Me-Down Homelab*, with the
 project's own website and the book section that sets it up. Get software
 from these sites, not from a search result or a mirror. Links checked
-2026-10-11. The book prints the same list as Appendix E.
+2026-10-16. The book prints the same list as Appendix E.
 
 Not listed: what the author wrote for this lab (LanScan, Photo Intel,
 HomelabMenu, the Homelab Menu and audit.sh). The book describes them, and
