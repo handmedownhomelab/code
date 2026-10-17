@@ -3,6 +3,10 @@
 Scripts from the book *Hand-Me-Down Homelab: How I built a home lab from old
 hardware — and an AI runs it*. Folders are named after the book's sections.
 
+**The book** is on Leanpub as a PDF and EPUB, with free updates. The
+Introduction and Chapter 1 are a free sample:
+[leanpub.com/handmedownhomelab](https://leanpub.com/handmedownhomelab).
+
 | File | Section | What it does |
 |---|---|---|
 | [`1.2/install-mbpfan.sh`](1.2/install-mbpfan.sh) | 1.2 Proxmox on a 2012 Mac mini | Gives a Mac running Linux a working fan curve, with a restart guard |
