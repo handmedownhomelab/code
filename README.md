@@ -15,6 +15,8 @@ Introduction and Chapter 1 are a free sample:
 | [`1.5/ux7_load_reservations.py`](1.5/ux7_load_reservations.py) | 1.5 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
 | [`1.5/reservations.example.md`](1.5/reservations.example.md) | 1.5 | An example table to start from |
 | [`2.2/post-receive`](2.2/post-receive), [`2.2/wiki-sync.sh`](2.2/wiki-sync.sh), [`2.2/check-wiki-log.sh`](2.2/check-wiki-log.sh), [`2.2/settings-hooks.json`](2.2/settings-hooks.json) | 2.2 One wiki on four machines | The hub's update hook, and the Claude Code hooks that pull at session start, push at the end, and check for log entries |
+| [`2.4/claude-memory-sync.sh`](2.4/claude-memory-sync.sh) | 2.4 Teaching the AI from its mistakes | Keeps Claude Code's memory folder the same on every workstation through your git hub; the session-start and stop hooks |
+| [`2.4/memory-check.sh`](2.4/memory-check.sh) | 2.4 | A weekly read-only report on the memory folder: mechanical checks, then a judgment pass that can't write |
 | [`2.5/ssh-menu.sh`](2.5/ssh-menu.sh), [`2.5/m.zsh`](2.5/m.zsh) | 2.5 The Homelab Menu and `audit.sh` | A one-letter launcher for your hosts and frequent commands |
 | [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
 | [`3.2/10-remote-collector.conf`](3.2/10-remote-collector.conf), [`3.2/prune-remote-logs.sh`](3.2/prune-remote-logs.sh) + `.service` / `.timer` | 3.2 Syslog | The central collector, and 90-day retention |
