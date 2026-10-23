@@ -36,9 +36,9 @@ this repository holds the parts worth reusing.
 | [Mosquitto](https://mosquitto.org) | The MQTT message broker | 4.1 | [`4.1-home-assistant-vm.md`](playbooks/4.1-home-assistant-vm.md) |
 | [MQTT Explorer](https://mqtt-explorer.com) | Watches MQTT messages go by, for debugging | 4.1 |  |
 | [HACS](https://hacs.xyz) | The Home Assistant Community Store | 4.1 |  |
-| [Piper](https://github.com/rhasspy/piper) | Local text-to-speech: the door-chime voice | 4.2 |  |
-| [ESPHome](https://esphome.io) | Firmware for small sensor boards | 4.3 |  |
-| [WLED](https://kno.wled.ge) | Firmware for addressable LED strips | 4.4 |  |
+| [Piper](https://github.com/rhasspy/piper) | Local text-to-speech: the door-chime voice | 4.2 | [`4.2-zigbee-and-door-chime.md`](playbooks/4.2-zigbee-and-door-chime.md) |
+| [ESPHome](https://esphome.io) | Firmware for small sensor boards | 4.3 | [`4.3-mmwave-stair-lights.md`](playbooks/4.3-mmwave-stair-lights.md) |
+| [WLED](https://kno.wled.ge) | Firmware for addressable LED strips | 4.4 | [`4.4-wled-holiday-lights.md`](playbooks/4.4-wled-holiday-lights.md) |
 | [Glances](https://nicolargo.github.io/glances) | A monitoring agent for the hosts that aren't Proxmox | 5.2 |  |
 | [ha-mcp](https://github.com/homeassistant-ai/ha-mcp) | Lets an AI assistant work Home Assistant's tools | 5.5 | [`5.5-ha-mcp.md`](playbooks/5.5-ha-mcp.md) |
 | [Whisper (Wyoming add-on)](https://github.com/rhasspy/wyoming-faster-whisper) | Speech to text for Home Assistant's voice assistant | 5.5 |  |

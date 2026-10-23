@@ -1,0 +1,7 @@
+// /etc/apt/apt.conf.d/10periodic
+// Refresh the package lists once a day so update checks read current data.
+// Lists only: nothing is downloaded or installed automatically.
+// Without this, plain Debian's apt-daily.service runs every day and does
+// nothing (UpdateInterval=0), and reports success.
+// Companion file for playbook 3.5 of Hand-Me-Down Homelab.
+APT::Periodic::Update-Package-Lists "1";

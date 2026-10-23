@@ -19,7 +19,12 @@ your AI assistant to carry out on **your** network.
 | [`3.1-uptime-kuma.md`](3.1-uptime-kuma.md) | 3.1 Uptime Kuma | An independent monitor: HTTP(S), certificates, DNS, ping, push | 2026-10-09 |
 | [`3.2-syslog-disk-alerts.md`](3.2-syslog-disk-alerts.md) | 3.2 Central syslog, and disk-health alerts | A central syslog collector with 90-day retention, and SMART alerts proven to arrive | 2026-10-09 |
 | [`3.3-mail-relay.md`](3.3-mail-relay.md) | 3.3 Email that actually arrives | A send-only Postfix relay through your mail provider | 2026-10-09 (to the provider's login) |
+| [`3.4-ai-alert-triage.md`](3.4-ai-alert-triage.md) | 3.4 The 06:32 triage | An archive of the lab's alert mail pulled read-only, a daily headless triage with no tools, missing reports caught by code, a push only when something needs you, a daily All OK | 2026-10-23 (LXC with a local mailbox; model call over synthetic mail; push and a real provider **Not tested**) |
+| [`3.5-update-sweeps.md`](3.5-update-sweeps.md) | 3.5 Update sweeps without breaking things | Package lists that refresh daily and are proven fresh, simulated upgrades, Docker by digest, and an apply that checks for deleted libraries | 2026-10-23 (Debian 13 LXC) |
 | [`4.1-home-assistant-vm.md`](4.1-home-assistant-vm.md) | 4.1 Home Assistant in a Proxmox VM | Home Assistant OS as a VM, claimed by you, behind the proxy, with Mosquitto | 2026-10-09 (add-ons in the UI untested) |
+| [`4.2-zigbee-and-door-chime.md`](4.2-zigbee-and-door-chime.md) | 4.2 Zigbee buttons, door sensors, and a door chime | A coordinator passed through to the VM, a channel clear of the Wi-Fi, buttons keyed on `zha_event` and the IEEE address, a local spoken door chime, a safe way to retire devices | **Not tested** (needs Zigbee hardware; written from the author's working setup) |
+| [`4.3-mmwave-stair-lights.md`](4.3-mmwave-stair-lights.md) | 4.3 mmWave radar stair lights with ESPHome | An LD2450 radar on an ESP32 with ESPHome, stair lights on while anyone is on them, zones trimmed, the YAML in git | **Not tested** (needs the radar and board; written from the author's working sensor) |
+| [`4.4-wled-holiday-lights.md`](4.4-wled-holiday-lights.md) | 4.4 WLED: garage and holiday porch lights | Fused 12 V sections fed at the centre, WLED on a wired IoT network, the settings that matter, seasonal presets on a schedule, troubleshooting that reads WLED's real state first | **Not tested** (needs the strips and controller; written from the author's working installation) |
 | [`5.5-ha-mcp.md`](5.5-ha-mcp.md) | 5.5 Claude drives Home Assistant through MCP | ha-mcp in Claude Code with its own token, starting in Read Only Mode | 2026-10-09 (reads only) |
 | [`6.1-pihole.md`](6.1-pihole.md) | 6.1 Pi-hole: ad blocking and local names | Pi-hole v6 as the house's DNS resolver, with local names | 2026-10-08 |
 | [`6.2-second-pihole.md`](6.2-second-pihole.md) | 6.2 Two Pi-holes that stay in sync | A second Pi-hole kept in step with the first by `6.2/pihole-sync.sh` | 2026-10-08 |
@@ -84,6 +89,8 @@ exercised. Whatever the test found was folded back into the playbook.
 **Some can't be tested that way.** A playbook that needs an NVIDIA graphics
 card is written from the author's working machine and the book, but a clean
 test would mean taking that machine (it runs the cameras and the local AI
-full-time) apart. Those playbooks say **Not tested** in their header and in
-the table above. They have the same Verify checks; run them, and trust the
+full-time) apart. A playbook that needs hardware a container can't have (a
+radio, a Zigbee stick, a sensor board, LED strips) is written from the
+author's working build in the same way. Those playbooks say **Not tested**
+in their header and in the table above. They have the same Verify checks; run them, and trust the
 checks over the prose.

@@ -21,6 +21,9 @@ Introduction and Chapter 1 are a free sample:
 | [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
 | [`3.2/10-remote-collector.conf`](3.2/10-remote-collector.conf), [`3.2/prune-remote-logs.sh`](3.2/prune-remote-logs.sh) + `.service` / `.timer` | 3.2 Syslog | The central collector, and 90-day retention |
 | [`3.2/60-forward-to-syslog.conf`](3.2/60-forward-to-syslog.conf) | 3.2 | Forwards a host's logs to the collector over TCP |
+| [`3.4/fetch.py`](3.4/fetch.py) | 3.4 The 06:32 triage | Copies the lab's alert mail into a local archive, read-only (nothing is marked read, moved or deleted) |
+| [`3.4/triage.py`](3.4/triage.py) | 3.4 | The daily triage: missing reports checked by code, Claude Code with no tools reads the rest, a report mailed every day and a push only when something needs you |
+| [`3.5/10periodic`](3.5/10periodic) | 3.5 Update sweeps | Turns on the daily package-list refresh that plain Debian leaves off |
 | [`6.2/pihole-sync.sh`](6.2/pihole-sync.sh) | 6.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
 | [`6.3/server_proxy.conf`](6.3/server_proxy.conf) | 6.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
 | [`7.3/forge-run.sh`](7.3/forge-run.sh), [`7.3/forge.zsh`](7.3/forge.zsh) | 7.3 Forge and FLUX | Start Forge only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |
