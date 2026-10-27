@@ -1,0 +1,93 @@
+# Hand-Me-Down Homelab 5.3: the nightly house-summary email (starter).
+# Paste into a new automation (Settings > Automations > Create > Edit in YAML),
+# then edit the four lists marked EDIT. Everything else finds your entities
+# by device class, so new batteries, leak sensors and daily meters appear
+# on their own.
+alias: Nightly house summary email
+description: One HTML report card at 23:50 (book 5.3)
+mode: single
+triggers:
+  - trigger: time
+    at: "23:50:00"
+actions:
+  - action: smtp.send_message
+    target:
+      entity_id: notify.EDIT_your_smtp_entity       # EDIT: Settings > Entities, domain notify
+    data:
+      title: House summary
+      message: House summary. Please view in an HTML-capable mail client.
+      html: >-
+        {#- EDIT 1: batteries never to check (phones, watches, a sensor whose value you don't trust) -#}
+        {%- set batt_skip = [] -%}
+        {#- EDIT 2: hosts as (label, cpu sensor, ram sensor, disk sensor); [] if you have none yet (5.2) -#}
+        {%- set hosts = [] -%}
+        {#- EDIT 3: other alerts as (label, entity, state that means trouble) -#}
+        {%- set checks = [] -%}
+        {#- EDIT 4: freshness checks as (label, entity, hours); uses last_reported (5.4) -#}
+        {%- set fresh = [] -%}
+
+        {#- ---- compute every alert once, at the top ---- -#}
+        {%- set ns = namespace(alerts=[], batt=[], low=[], dead=[], leaks=[], e=[], etotal=0, etop=0) -%}
+        {%- set batts = states.sensor | selectattr('attributes.device_class','defined')
+              | selectattr('attributes.device_class','eq','battery')
+              | rejectattr('entity_id','in',batt_skip) | list -%}
+        {%- for b in batts -%}
+          {%- if b.state in ['unknown','unavailable'] -%}
+            {%- set ns.dead = ns.dead + [b.name] -%}
+          {%- else -%}
+            {%- set p = b.state | float(0) | round(0) | int -%}
+            {%- set ns.batt = ns.batt + [(p, b.name)] -%}
+            {%- if p < 10 -%}{%- set ns.low = ns.low + [b.name] -%}{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- set leaksensors = states.binary_sensor | selectattr('attributes.device_class','defined')
+              | selectattr('attributes.device_class','eq','moisture') | list -%}
+        {%- for s in leaksensors if s.state == 'on' -%}{%- set ns.leaks = ns.leaks + [s.name] -%}{%- endfor -%}
+        {%- for label, ent, bad in checks if states(ent) == bad -%}{%- set ns.alerts = ns.alerts + [label] -%}{%- endfor -%}
+        {%- for label, ent, hrs in fresh -%}
+          {%- set st = states[ent.split('.')[0]][ent.split('.')[1]] -%}
+          {%- if st is none or st.state in ['unknown','unavailable'] or (now() - st.last_reported).total_seconds() > hrs * 3600 -%}
+            {%- set ns.alerts = ns.alerts + [label ~ ' stale'] -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for label, c, r, d in hosts if not has_value(c) -%}{%- set ns.alerts = ns.alerts + [label ~ ' offline'] -%}{%- endfor -%}
+        {%- if ns.leaks -%}{%- set ns.alerts = ns.alerts + ['Water leak: ' ~ ns.leaks | join(', ')] -%}{%- endif -%}
+        {%- if ns.low -%}{%- set ns.alerts = ns.alerts + [ns.low | length | string ~ ' battery low'] -%}{%- endif -%}
+        {%- if ns.dead -%}{%- set ns.alerts = ns.alerts + [ns.dead | length | string ~ ' battery not reporting'] -%}{%- endif -%}
+        {%- set upd = states.update | selectattr('state','eq','on') | list | count -%}
+        {%- if upd > 0 -%}{%- set ns.alerts = ns.alerts + [upd | string ~ ' update(s) pending'] -%}{%- endif -%}
+
+        {#- ---- energy: rank today's daily meters at send time ---- -#}
+        {%- set meters = states.sensor | selectattr('attributes.device_class','defined')
+              | selectattr('attributes.device_class','eq','energy')
+              | selectattr('attributes.next_reset','defined') | list -%}
+        {%- for m in meters -%}
+          {%- set v = m.state | float(0) -%}
+          {%- set ns.e = ns.e + [(v, m.name)] -%}{%- set ns.etotal = ns.etotal + v -%}
+        {%- endfor -%}
+        {%- set ranked = ns.e | sort(reverse=true) -%}
+        {%- for v, n in ranked[:10] -%}{%- set ns.etop = ns.etop + v -%}{%- endfor -%}
+
+        <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
+        <h2>House summary &middot; {{ now().strftime('%b %d, %Y') }}</h2>
+        {% if ns.alerts %}
+        <div style="background:#FEF2F2;border-left:4px solid #E24B4A;padding:10px">{{ ns.alerts | length }} Alert{{ 's' if ns.alerts | length > 1 }}: {{ ns.alerts | join(' &middot; ') }}</div>
+        {% else %}
+        <div style="background:#F0FDF4;border-left:4px solid #16A34A;padding:10px">All systems normal</div>
+        {% endif %}
+
+        {% if ranked %}<h3>Energy today: top {{ [ranked | length, 10] | min }} of {{ ranked | length }}</h3>
+        {% for v, n in ranked[:10] %}<div>{{ n }}: {{ v | round(2) }} kWh</div>{% endfor %}
+        {% if ranked | length > 10 %}<div style="color:#999">Other {{ ranked | length - 10 }}: {{ (ns.etotal - ns.etop) | round(2) }} kWh</div>{% endif %}{% endif %}
+
+        {% if hosts %}<h3>Systems</h3>
+        {% for label, c, r, d in hosts %}{% set cv = states(c) | float(0) %}{% set rv = states(r) | float(0) %}{% set dv = states(d) | float(0) %}
+        <div style="color:{{ '#b45309' if cv > 85 or rv > 90 or dv > 85 else '#15803d' }}">{{ label }}: {% if has_value(c) %}CPU {{ cv | round(0) | int }}% &middot; RAM {{ rv | round(0) | int }}% &middot; Disk {{ dv | round(0) | int }}%{% else %}OFFLINE{% endif %}</div>{% endfor %}{% endif %}
+
+        <h3>Batteries: {{ ns.batt | length }} reporting</h3>
+        {% for n in ns.dead %}<div style="color:#5b21b6">{{ n }}: not reporting</div>{% endfor %}
+        {% for p, n in ns.batt | sort %}<div style="color:{{ '#b91c1c' if p < 10 else ('#b45309' if p < 25 else '#4b5563') }}">{{ n }}: {{ p }}%</div>{% endfor %}
+
+        <h3>Leak sensors: {{ leaksensors | length }}</h3>
+        <div>{{ 'LEAK: ' ~ ns.leaks | join(', ') if ns.leaks else 'All dry' }}</div>
+        </body></html>
