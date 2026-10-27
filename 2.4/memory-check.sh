@@ -26,15 +26,15 @@ NO_AI=0
 if [ "${1:-}" = "--no-ai" ]; then NO_AI=1; shift; fi
 
 # --- EDIT THESE --------------------------------------------------------------
-# Your memory folder. Find it with: ls -d ~/.claude/projects/*/memory
-MEM_DIR="${1:-}"
+# Your memory folder. Find it with: ls -d ~/.claude/projects/*/memory ~/.agents/memory
+MEM_DIR="${1:-${MEM_DIR:-}}"
 OUT_DIR="$HOME/memory-reports"
 KEEP=8 # reports to keep
 # -----------------------------------------------------------------------------
 
 if [ -z "$MEM_DIR" ]; then
 	# Exactly one memory folder? Use it. Otherwise make the reader choose.
-	found=$(ls -d "$HOME"/.claude/projects/*/memory 2>/dev/null)
+	found=$(ls -d "$HOME"/.claude/projects/*/memory "$HOME"/.agents/memory 2>/dev/null)
 	if [ "$(printf '%s\n' "$found" | grep -c .)" = 1 ]; then
 		MEM_DIR="$found"
 	else

@@ -22,9 +22,9 @@ LOG="$HOME/.claude/memory-sync.log"
 # contains this text, so other git repositories are never touched.
 REMOTE_MATCH="claude-memory.git"
 BRANCH="main"
-# Memory folders are found under ~/.claude/projects/*/memory. If you moved
-# yours with the autoMemoryDirectory setting, list it here as well.
-EXTRA_STORES=()
+# Memory folders are found under ~/.claude/projects/*/memory or ~/.agents/memory.
+# If you moved yours with the autoMemoryDirectory setting, list it here as well.
+EXTRA_STORES=("$HOME/.agents/memory")
 # -----------------------------------------------------------------------------
 
 LOCK_MAX_AGE=300 # seconds before a lock is considered stale

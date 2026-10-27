@@ -7,10 +7,14 @@ once a day, right after fetch.py, on the host that holds the archive.
 
   1. Code, not the model, checks that every routine report arrived and
      says OK (routine.tsv). A missing one is an action item.
-  2. Claude Code runs headless with NO tools, no MCP servers, no settings
-     or hooks, and no saved session. The mail goes in on stdin as data; a
+  2. The language model runs headless with NO tools, no MCP servers, no
+     settings or hooks, and no saved session. The mail goes in as data; a
      JSON verdict comes back. Mail carries text strangers chose (Wi-Fi
      names, IDS payloads), so the model is given nothing it could act with.
+     Supports three backends via PROVIDER in settings.env:
+       - claude (default): `claude -p` with --tools "" and --json-schema
+       - ollama: local Ollama `/api/chat` with `format: SCHEMA` (zero cloud)
+       - openai: any OpenAI-compatible `/chat/completions` endpoint
   3. This script writes triage.md and triage.json, mails the report to
      root (through your relay, book 3.3), and pushes to your phone only
      when something needs action, a routine report is missing, or the
@@ -18,7 +22,12 @@ once a day, right after fetch.py, on the host that holds the archive.
      no push, so a morning with no triage mail means the pipeline broke.
 
 Files (ALERT_MAIL_HOME, default ~/alert-mail):
-  settings.env     OWNER=<your name>   MODEL=sonnet   CLAUDE=~/.local/bin/claude
+  settings.env     OWNER=<your name>   PROVIDER=claude|ollama|openai
+                   MODEL=<optional; must suit PROVIDER. Defaults: claude sonnet,
+                         ollama gemma4:12b-it-q8_0, openai gpt-4o-mini>
+                   CLAUDE=~/.local/bin/claude
+                   OLLAMA_URL=http://localhost:11434
+                   OPENAI_BASE_URL=https://api.openai.com/v1
                    HA_URL=http://<home-assistant>:8123   HA_NOTIFY=notify/mobile_app_<phone>
                    (leave HA_* out to send mail only)
   routine.tsv      one routine report per line, tab-separated:
@@ -32,7 +41,8 @@ Files (ALERT_MAIL_HOME, default ~/alert-mail):
                    appended to the system prompt. Add a sentence after
                    every false alarm.
 ~/.config/alert-mail.creds (600):
-  CLAUDE_CODE_OAUTH_TOKEN=<from `claude setup-token`>   HA_TOKEN=<optional>
+  CLAUDE_CODE_OAUTH_TOKEN=<from `claude setup-token`>   OPENAI_API_KEY=<optional>
+  HA_TOKEN=<optional>
 
 Usage: triage.py [--hours N] [--dry-run] [--no-push] [--out DIR]
   --dry-run  print the prompt; no model call, nothing sent
@@ -242,12 +252,12 @@ def build_prompt(msgs, routine, hist, prev, start, end):
     return "\n".join(out)
 
 
-def run_claude(settings, token, system, prompt):
+def run_claude(settings, model, token, system, prompt):
     env = {k: v for k, v in os.environ.items() if not k.startswith("ANTHROPIC_")}
     if token:
         env["CLAUDE_CODE_OAUTH_TOKEN"] = token
     cmd = [os.path.expanduser(settings.get("CLAUDE", "~/.local/bin/claude")), "-p",
-           "--model", settings.get("MODEL", "sonnet"),
+           "--model", model,
            "--tools", "",                 # no tools at all
            "--strict-mcp-config",         # no MCP servers
            "--setting-sources", "",       # no settings files, so no hooks
@@ -266,6 +276,67 @@ def run_claude(settings, token, system, prompt):
     if verdict is None:
         verdict = json.loads(out.get("result") or "{}")
     return verdict
+
+
+def run_ollama(settings, model, system, prompt):
+    url = f"{settings.get('OLLAMA_URL', 'http://localhost:11434').rstrip('/')}/api/chat"
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt},
+        ],
+        "format": SCHEMA,
+        "stream": False,
+    }
+    req = urllib.request.Request(
+        url, data=json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json"}, method="POST")
+    with urllib.request.urlopen(req, timeout=600) as r:
+        out = json.loads(r.read().decode())
+    return json.loads(out.get("message", {}).get("content") or "{}")
+
+
+def run_openai(settings, model, token, system, prompt):
+    url = f"{settings.get('OPENAI_BASE_URL', 'https://api.openai.com/v1').rstrip('/')}/chat/completions"
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": f"{system}\n\nRespond ONLY with JSON matching this schema:\n{json.dumps(SCHEMA)}"},
+            {"role": "user", "content": prompt},
+        ],
+        "response_format": {"type": "json_object"},
+    }
+    req = urllib.request.Request(url, data=json.dumps(payload).encode(), headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=600) as r:
+        out = json.loads(r.read().decode())
+    content = out["choices"][0]["message"]["content"]
+    return json.loads(content)
+
+
+# Each provider's model when settings.env has no MODEL. Ollama's is the 7.2
+# resident model, so the triage doesn't evict it from the one GPU slot.
+DEFAULT_MODEL = {"claude": "sonnet", "ollama": "gemma4:12b-it-q8_0", "openai": "gpt-4o-mini"}
+CLAUDE_ALIASES = ("sonnet", "opus", "haiku", "claude")
+
+
+def run_model(settings, creds, system, prompt):
+    provider = settings.get("PROVIDER", "claude").lower()
+    if provider not in DEFAULT_MODEL:
+        raise ValueError(f"PROVIDER={provider!r}: use claude, ollama or openai")
+    model = settings.get("MODEL") or DEFAULT_MODEL[provider]
+    # A MODEL left over from a Claude setup would only fail later, less clearly.
+    if provider != "claude" and model.lower().startswith(CLAUDE_ALIASES):
+        raise ValueError(f"MODEL={model} is a Claude model but PROVIDER={provider}; "
+                         f"set MODEL in settings.env (e.g. {DEFAULT_MODEL[provider]})")
+    if provider == "ollama":
+        return run_ollama(settings, model, system, prompt)
+    if provider == "openai":
+        return run_openai(settings, model, creds.get("OPENAI_API_KEY"), system, prompt)
+    return run_claude(settings, model, creds.get("CLAUDE_CODE_OAUTH_TOKEN"), system, prompt)
 
 
 def render_md(verdict, routine, start, end, n_msgs, error):
@@ -346,7 +417,7 @@ def main():
     error = None
     verdict = {"attention": False, "headline": "", "items": [], "routine": ""}
     try:
-        verdict = run_claude(settings, creds.get("CLAUDE_CODE_OAUTH_TOKEN"), system, prompt)
+        verdict = run_model(settings, creds, system, prompt)
     except Exception as e:   # a failed triage must be loud, not silent
         error = f"{type(e).__name__}: {e}"
 

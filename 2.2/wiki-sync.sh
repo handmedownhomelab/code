@@ -2,7 +2,9 @@
 # wiki-sync.sh: keep every git clone under ~/wiki in step with the hub.
 # Hand-Me-Down Homelab, section 2.2.
 #
-# Run by Claude Code hooks (~/.claude/settings.json; see settings-hooks.json):
+# Run by Claude Code hooks (~/.claude/settings.json; see settings-hooks.json),
+# or by the universal shell wrapper in ~/.zshrc / ~/.bashrc for any other CLI
+# assistant (Gemini CLI, OpenAI Codex, Aider, Goose):
 #   wiki-sync.sh            SessionStart: fast-forward every clean clone
 #   wiki-sync.sh push       Stop: push committed work, warn about uncommitted
 #

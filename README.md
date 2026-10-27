@@ -14,22 +14,22 @@ Introduction and Chapter 1 are a free sample:
 | [`1.4/proxmox-backup-sync.sh`](1.4/proxmox-backup-sync.sh) | 1.4 Backups | Nightly copy of a Proxmox host's backups to another machine; refuses when the source looks wrong |
 | [`1.5/ux7_load_reservations.py`](1.5/ux7_load_reservations.py) | 1.5 The gateway, and DHCP reservations as code | Loads DHCP reservations from a Markdown table onto a UniFi gateway; dry run by default |
 | [`1.5/reservations.example.md`](1.5/reservations.example.md) | 1.5 | An example table to start from |
-| [`2.2/post-receive`](2.2/post-receive), [`2.2/wiki-sync.sh`](2.2/wiki-sync.sh), [`2.2/check-wiki-log.sh`](2.2/check-wiki-log.sh), [`2.2/settings-hooks.json`](2.2/settings-hooks.json) | 2.2 One wiki on four machines | The hub's update hook, and the Claude Code hooks that pull at session start, push at the end, and check for log entries |
-| [`2.4/claude-memory-sync.sh`](2.4/claude-memory-sync.sh) | 2.4 Teaching the AI from its mistakes | Keeps Claude Code's memory folder the same on every workstation through your git hub; the session-start and stop hooks |
+| [`2.2/post-receive`](2.2/post-receive), [`2.2/wiki-sync.sh`](2.2/wiki-sync.sh), [`2.2/check-wiki-log.sh`](2.2/check-wiki-log.sh), [`2.2/settings-hooks.json`](2.2/settings-hooks.json) | 2.2 One wiki on four machines | The hub's update hook, and the session hooks (or shell wrapper) that pull at session start, push at the end, and check for log entries |
+| [`2.4/claude-memory-sync.sh`](2.4/claude-memory-sync.sh) | 2.4 Teaching the AI from its mistakes | Keeps the AI memory folder (`~/.claude/projects/*/memory` or `~/.agents/memory`) the same on every workstation through your git hub; the session-start and stop hooks |
 | [`2.4/memory-check.sh`](2.4/memory-check.sh) | 2.4 | A weekly read-only report on the memory folder: mechanical checks, then a judgment pass that can't write |
 | [`2.5/ssh-menu.sh`](2.5/ssh-menu.sh), [`2.5/m.zsh`](2.5/m.zsh) | 2.5 The Homelab Menu and `audit.sh` | A one-letter launcher for your hosts and frequent commands |
 | [`2.5/audit.sh`](2.5/audit.sh) | 2.5 | Runs the same commands on every host and prints one report |
 | [`3.2/10-remote-collector.conf`](3.2/10-remote-collector.conf), [`3.2/prune-remote-logs.sh`](3.2/prune-remote-logs.sh) + `.service` / `.timer` | 3.2 Syslog | The central collector, and 90-day retention |
 | [`3.2/60-forward-to-syslog.conf`](3.2/60-forward-to-syslog.conf) | 3.2 | Forwards a host's logs to the collector over TCP |
 | [`3.4/fetch.py`](3.4/fetch.py) | 3.4 The 06:32 triage | Copies the lab's alert mail into a local archive, read-only (nothing is marked read, moved or deleted) |
-| [`3.4/triage.py`](3.4/triage.py) | 3.4 | The daily triage: missing reports checked by code, Claude Code with no tools reads the rest, a report mailed every day and a push only when something needs you |
+| [`3.4/triage.py`](3.4/triage.py) | 3.4 | The daily triage: missing reports checked by code, a headless model (`PROVIDER=claude`, local `ollama`, or `openai`) with no tools reads the rest, a report mailed every day and a push only when something needs you |
 | [`3.5/10periodic`](3.5/10periodic) | 3.5 Update sweeps | Turns on the daily package-list refresh that plain Debian leaves off |
 | [`6.2/pihole-sync.sh`](6.2/pihole-sync.sh) | 6.2 Two Pi-holes that stay in sync | One-way sync from a primary Pi-hole to a secondary, only when something changed |
 | [`6.3/server_proxy.conf`](6.3/server_proxy.conf) | 6.3 NGINX Proxy Manager | Answers the ACME challenge on every proxy host, even with Force SSL on |
 | [`7.3/forge-run.sh`](7.3/forge-run.sh), [`7.3/forge.zsh`](7.3/forge.zsh) | 7.3 Forge and FLUX | Start Forge only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |
-| [`7.3/forge-image/`](7.3/forge-image/) | 7.3 | A Claude Code skill: generate with Forge, look at the image, critique, go again |
+| [`7.3/forge-image/`](7.3/forge-image/) | 7.3 | An AI skill: generate with Forge, look at the image, critique, go again |
 | [`7.4/comfyui-run.sh`](7.4/comfyui-run.sh), [`7.4/comfy.zsh`](7.4/comfy.zsh) | 7.4 ComfyUI | Start ComfyUI only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |
-| [`7.4/comfyui-video/`](7.4/comfyui-video/) | 7.4 | A Claude Code skill: Wan 2.2 or LTX-Video clips from text or a still, longer clips by chaining, frames pulled and critiqued; four API-format templates |
+| [`7.4/comfyui-video/`](7.4/comfyui-video/) | 7.4 | An AI skill: Wan 2.2 or LTX-Video clips from text or a still, longer clips by chaining, frames pulled and critiqued; four API-format templates |
 | [`7.6/acestep-run.sh`](7.6/acestep-run.sh), [`7.6/music.zsh`](7.6/music.zsh) | 7.6 ACE-Step | Start ACE-Step only after freeing the GPU, offload on, through an SSH tunnel; Ctrl-C loads the chat model back |
 | [`7.6/acestep_batch.py`](7.6/acestep_batch.py) | 7.6 | Several tracks from a job file, without the web interface |
 | [`8.1/watch_page.py`](8.1/watch_page.py) | 8.1 Hermes | A page watcher for a Hermes script-only cron job: silent until the page changes |
