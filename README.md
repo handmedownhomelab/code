@@ -30,6 +30,7 @@ Introduction and Chapter 1 are a free sample:
 | [`7.3/forge-image/`](7.3/forge-image/) | 7.3 | An AI skill: generate with Forge, look at the image, critique, go again |
 | [`7.4/comfyui-run.sh`](7.4/comfyui-run.sh), [`7.4/comfy.zsh`](7.4/comfy.zsh) | 7.4 ComfyUI | Start ComfyUI only after freeing the GPU, through an SSH tunnel; Ctrl-C loads the chat model back |
 | [`7.4/comfyui-video/`](7.4/comfyui-video/) | 7.4 | An AI skill: Wan 2.2 or LTX-Video clips from text or a still, longer clips by chaining, frames pulled and critiqued; four API-format templates |
+| [`7.5/kontext_edit_api.json`](7.5/kontext_edit_api.json) | 7.5 Fix old photos by typing | The FLUX Kontext edit workflow in ComfyUI's API format |
 | [`7.6/acestep-run.sh`](7.6/acestep-run.sh), [`7.6/music.zsh`](7.6/music.zsh) | 7.6 ACE-Step | Start ACE-Step only after freeing the GPU, offload on, through an SSH tunnel; Ctrl-C loads the chat model back |
 | [`7.6/acestep_batch.py`](7.6/acestep_batch.py) | 7.6 | Several tracks from a job file, without the web interface |
 | [`8.1/watch_page.py`](8.1/watch_page.py) | 8.1 Hermes | A page watcher for a Hermes script-only cron job: silent until the page changes |

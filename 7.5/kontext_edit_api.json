@@ -1,0 +1,17 @@
+{
+  "37": {"inputs": {"unet_name": "flux1-dev-kontext_fp8_scaled.safetensors", "weight_dtype": "default"}, "class_type": "UNETLoader"},
+  "38": {"inputs": {"clip_name1": "clip_l.safetensors", "clip_name2": "t5xxl_fp8_e4m3fn_scaled.safetensors", "type": "flux"}, "class_type": "DualCLIPLoader"},
+  "39": {"inputs": {"vae_name": "ae.safetensors"}, "class_type": "VAELoader"},
+  "50": {"inputs": {"image": ""}, "class_type": "LoadImage"},
+  "42": {"inputs": {"image": ["50", 0]}, "class_type": "FluxKontextImageScale"},
+  "51": {"inputs": {"pixels": ["42", 0], "vae": ["39", 0]}, "class_type": "VAEEncode"},
+  "6": {"inputs": {"text": "", "clip": ["38", 0]}, "class_type": "CLIPTextEncode"},
+  "40": {"inputs": {"conditioning": ["6", 0], "latent": ["51", 0]}, "class_type": "ReferenceLatent"},
+  "26": {"inputs": {"conditioning": ["40", 0], "guidance": 2.5}, "class_type": "FluxGuidance"},
+  "33": {"inputs": {"conditioning": ["6", 0]}, "class_type": "ConditioningZeroOut"},
+  "31": {"inputs": {"seed": 0, "steps": 20, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple",
+                    "denoise": 1.0, "model": ["37", 0], "positive": ["26", 0], "negative": ["33", 0],
+                    "latent_image": ["51", 0]}, "class_type": "KSampler"},
+  "8": {"inputs": {"samples": ["31", 0], "vae": ["39", 0]}, "class_type": "VAEDecode"},
+  "9": {"inputs": {"filename_prefix": "kontext_edit", "images": ["8", 0]}, "class_type": "SaveImage"}
+}
